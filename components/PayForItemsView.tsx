@@ -38,7 +38,7 @@ export default function PayForItemsView({ items, onBack, onContinue }: PayForIte
   const hasSelection = Object.values(selectedQuantities).some(qty => qty > 0)
 
   return (
-    <div className="flex flex-col h-full" style={{ maxHeight: 'calc(95vh - 100px)' }}>
+    <div className="flex flex-col h-full" style={{ maxHeight: 'calc(85vh - 100px)' }}>
       {/* Header */}
       <div className="flex-shrink-0 pt-4 pb-3 px-4 sm:pt-6 sm:pb-4">
         <div className="flex items-center justify-between mb-3 sm:mb-4">
