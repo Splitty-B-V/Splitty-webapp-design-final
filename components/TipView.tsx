@@ -78,7 +78,7 @@ export default function TipView({ subtotal, serviceFee, onBack, onContinue }: Ti
       {/* Main content */}
       <div className="flex-1 px-4 pb-3 sm:pb-4 overflow-y-auto">
         {/* Tip selection buttons */}
-        <div className="grid grid-cols-4 gap-2 mb-3 sm:mb-4">
+        <div className="grid grid-cols-4 gap-2 mb-3 sm:mb-4 mt-6">
           {tipOptions.map((option) => (
             <button
               key={option.id}
@@ -89,7 +89,7 @@ export default function TipView({ subtotal, serviceFee, onBack, onContinue }: Ti
               }}
             >
               {option.label && (
-                <div className="absolute -top-2.5 left-1/2 transform -translate-x-1/2 z-10">
+                <div className="absolute -top-3.5 left-1/2 transform -translate-x-1/2 z-10">
                   <span className="text-[10px] sm:text-[11px] font-semibold px-2 py-0.5 sm:px-3 sm:py-1 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-full shadow-sm whitespace-nowrap">
                     {option.label}
                   </span>
