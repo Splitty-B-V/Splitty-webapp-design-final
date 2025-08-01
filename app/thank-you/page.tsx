@@ -1,9 +1,10 @@
 'use client'
 
+import { Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import ThankYouView from '@/components/ThankYouView'
 
-export default function ThankYouPage() {
+function ThankYouContent() {
   const searchParams = useSearchParams()
   
   // Extract payment data from URL params
@@ -16,4 +17,12 @@ export default function ThankYouPage() {
   }
   
   return <ThankYouView restaurantId="splitty" tableId="1" paymentData={paymentData} />
+}
+
+export default function ThankYouPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ThankYouContent />
+    </Suspense>
+  )
 }
