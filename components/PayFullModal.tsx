@@ -74,16 +74,20 @@ export default function PayFullModal({ isOpen, onClose, total }: PayFullModalPro
         </div>
         
         {/* Content */}
-        <div className="flex-1 overflow-y-auto px-4 pb-4">
-          <div className="py-6">
+        <div className="flex-1 overflow-hidden">
+          <div className="h-full">
             {currentView === 'confirm' ? (
-              <PayFullConfirmView 
-                subtotal={subtotal}
-                serviceFee={0}
-                total={total}
-                onBack={onClose}
-                onContinue={() => setCurrentView('tip')}
-              />
+              <div className="overflow-y-auto px-4 pb-4">
+                <div className="py-6">
+                  <PayFullConfirmView 
+                    subtotal={subtotal}
+                    serviceFee={0}
+                    total={total}
+                    onBack={onClose}
+                    onContinue={() => setCurrentView('tip')}
+                  />
+                </div>
+              </div>
             ) : currentView === 'tip' ? (
               <TipView 
                 subtotal={total}
