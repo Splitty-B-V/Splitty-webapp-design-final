@@ -149,17 +149,17 @@ export default function CustomAmountView({ total, onBack, onContinue }: CustomAm
                   inputMode="numeric"
                   pattern="[0-9]*"
                   placeholder="0"
-                  className="w-20 sm:w-24 text-3xl sm:text-5xl font-bold text-gray-900 outline-none text-center bg-transparent"
+                  className="w-20 sm:w-24 text-3xl sm:text-5xl font-bold text-black outline-none text-center bg-transparent placeholder-gray-300"
                   type="text"
                   value={euros}
                   onChange={handleEurosChange}
                 />
-                <span className="text-2xl sm:text-3xl font-bold text-gray-500">,</span>
+                <span className="text-2xl sm:text-3xl font-bold text-black">,</span>
                 <input 
                   inputMode="numeric"
                   pattern="[0-9]*"
                   placeholder="00"
-                  className="w-12 sm:w-16 text-2xl sm:text-3xl font-bold text-gray-500 outline-none bg-transparent"
+                  className="w-12 sm:w-16 text-2xl sm:text-3xl font-bold text-black outline-none bg-transparent placeholder-gray-300"
                   type="text"
                   value={cents}
                   onChange={handleCentsChange}

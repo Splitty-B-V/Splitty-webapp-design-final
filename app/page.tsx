@@ -53,25 +53,25 @@ export default function Home() {
           <div className="h-16 bg-white"></div>
           
           {/* Total Amount Header - Clean & Modern */}
-          <div className="bg-white border-b border-gray-200 px-6 pt-6 pb-5">
-            <div className="flex justify-between items-center mb-5">
+          <div className="bg-white border-b border-gray-200 px-4 pt-5 pb-4 sm:px-6 sm:pt-6 sm:pb-5">
+            <div className="flex justify-between items-center mb-4 sm:mb-5">
               <div>
-                <h1 className="text-gray-600 text-sm font-normal mb-0.5">Tafel 1</h1>
-                <p className="text-black text-xl font-semibold">Nog openstaande bedrag</p>
+                <h1 className="text-gray-600 text-xs sm:text-sm font-normal mb-0.5">Tafel 1</h1>
+                <p className="text-black text-lg sm:text-xl font-semibold">Nog openstaande bedrag</p>
               </div>
               <div className="text-right">
-                <p className="text-black text-2xl font-semibold">€{remainingAmount.toFixed(2).replace('.', ',')}</p>
+                <p className="text-black text-xl sm:text-2xl font-semibold">€{remainingAmount.toFixed(2).replace('.', ',')}</p>
               </div>
             </div>
             {/* Progress bar with percentage */}
             <div className="relative">
-              <div className="flex items-center gap-3">
-                <div className="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
+              <div className="flex items-center gap-2 sm:gap-3">
+                <div className="flex-1 h-1.5 sm:h-2 bg-gray-200 rounded-full overflow-hidden">
                   <div className="h-full bg-gradient-to-r from-green-500 to-green-400 rounded-full transition-all duration-700 ease-out" style={{ width: `${paidPercentage}%` }}></div>
                 </div>
-                <div className="flex items-center gap-1">
-                  <span className="text-sm font-bold text-gray-700">{paidPercentage}%</span>
-                  <svg className="w-4 h-4 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <div className="flex items-center gap-0.5 sm:gap-1">
+                  <span className="text-xs sm:text-sm font-bold text-gray-700">{paidPercentage}%</span>
+                  <svg className="w-3 h-3 sm:w-4 sm:h-4 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                 </div>
@@ -82,41 +82,41 @@ export default function Home() {
           {/* White background for order items */}
           <div className="bg-white shadow-sm">
             {/* Order Summary */}
-            <div className="px-6 py-6">
+            <div className="px-4 py-4 sm:px-6 sm:py-6">
               {/* Section Title */}
-              <h2 className="text-black font-semibold text-lg mb-4">Bestelling</h2>
+              <h2 className="text-black font-semibold text-base sm:text-lg mb-3 sm:mb-4">Bestelling</h2>
               
               {/* Order items */}
-              <div className="space-y-2">
+              <div className="space-y-1.5 sm:space-y-2">
                 {orderItems.map((item, index) => (
-                  <div key={index} className="flex items-center justify-between group hover:bg-gray-50 -mx-2 px-2 py-1.5 rounded-lg transition-colors">
-                    <div className="flex items-center gap-3">
-                      <div className="bg-gray-100 text-gray-900 text-xs font-bold w-6 h-6 rounded flex items-center justify-center">
+                  <div key={index} className="flex items-center justify-between group hover:bg-gray-50 -mx-1.5 px-1.5 py-1 sm:-mx-2 sm:px-2 sm:py-1.5 rounded-lg transition-colors">
+                    <div className="flex items-center gap-2 sm:gap-3">
+                      <div className="bg-gray-100 text-gray-900 text-[10px] sm:text-xs font-bold w-5 h-5 sm:w-6 sm:h-6 rounded flex items-center justify-center">
                         {item.quantity}
                       </div>
                       <div>
-                        <p className="text-black font-medium">{item.name}</p>
-                        <p className="text-gray-500 text-sm">€{item.unitPrice.toFixed(2).replace('.', ',')} per stuk</p>
+                        <p className="text-black font-medium text-sm sm:text-base">{item.name}</p>
+                        <p className="text-gray-500 text-xs sm:text-sm">€{item.unitPrice.toFixed(2).replace('.', ',')} per stuk</p>
                       </div>
                     </div>
-                    <span className="text-black font-semibold">€{item.totalPrice.toFixed(2).replace('.', ',')}</span>
+                    <span className="text-black font-semibold text-sm sm:text-base">€{item.totalPrice.toFixed(2).replace('.', ',')}</span>
                   </div>
                 ))}
               </div>
               
               {/* Divider */}
-              <div className="my-6 border-t border-gray-200"></div>
+              <div className="my-4 sm:my-6 border-t border-gray-200"></div>
               
               {/* Total Section */}
-              <div className="space-y-3">
+              <div className="space-y-2 sm:space-y-3">
                 <div className="flex justify-between items-center">
-                  <p className="text-lg font-semibold text-black">Totaalbedrag</p>
-                  <p className="text-2xl font-bold text-black">€{total.toFixed(2).replace('.', ',')}</p>
+                  <p className="text-base sm:text-lg font-semibold text-black">Totaalbedrag</p>
+                  <p className="text-xl sm:text-2xl font-bold text-black">€{total.toFixed(2).replace('.', ',')}</p>
                 </div>
               </div>
               
               {/* Divider */}
-              <div className="my-4 border-t border-gray-200"></div>
+              <div className="my-3 sm:my-4 border-t border-gray-200"></div>
               
               {/* BTW Section */}
               <BTWSummary btwBreakdown={btwBreakdown} totalBTW={totalBTW} />
@@ -124,24 +124,24 @@ export default function Home() {
             
             {/* Splitty Branding */}
             <div className="relative" style={{ backgroundColor: '#f7fef9' }}>
-              <div className="relative px-6 py-8">
+              <div className="relative px-4 py-6 sm:px-6 sm:py-8">
                 {/* Logo section */}
-                <div className="flex flex-col items-center mb-5">
+                <div className="flex flex-col items-center mb-4 sm:mb-5">
                   <Image 
                     src="/images/logo-trans.png" 
                     alt="Splitty" 
-                    width={80} 
-                    height={28}
-                    className="mb-3"
+                    width={60} 
+                    height={21}
+                    className="mb-2 sm:mb-3 sm:w-20 sm:h-7"
                   />
                   
-                  <p className="text-sm font-medium text-gray-700">
+                  <p className="text-xs sm:text-sm font-medium text-gray-700">
                     Betalen met een glimlach 😊
                   </p>
                 </div>
                 
                 {/* Links section */}
-                <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-xs">
+                <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-0.5 text-[10px] sm:gap-x-3 sm:gap-y-1 sm:text-xs">
                   <span className="text-gray-500">Powered by Splitty</span>
                   <span className="text-gray-400">•</span>
                   <a href="https://www.splitty.nl/algemene-voorwaarden" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-gray-800 transition-colors">
@@ -161,13 +161,13 @@ export default function Home() {
           </div>
           
           {/* Bottom spacing for fixed buttons */}
-          <div className="h-24"></div>
+          <div className="h-20 sm:h-24"></div>
         </main>
         
         {/* Fixed bottom action buttons */}
         <div className="fixed bottom-0 left-0 right-0 z-50">
           <div className="max-w-[500px] mx-auto bg-white border-t border-gray-100 shadow-[0_-4px_12px_rgba(0,0,0,0.04)]">
-            <div className="p-4">
+            <div className="p-3 sm:p-4">
               <ActionButtons />
             </div>
           </div>
