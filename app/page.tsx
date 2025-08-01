@@ -42,7 +42,7 @@ export default function Home() {
           <div 
             className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 w-28 h-28 rounded-full bg-white bg-center bg-no-repeat bg-contain shadow-lg"
             style={{ 
-              backgroundImage: 'url(https://firebasestorage.googleapis.com/v0/b/sunday-dem.appspot.com/o/dbdebaf6-974f-4632-b60d-8edcd8017f04%2Flogo%2Frounded_300x300.png?alt=media&token=c8597c1d-af9f-4328-b994-dda34e4a0979)',
+              backgroundImage: 'url(/images/limon.jpeg)',
               backgroundSize: '80%'
             }}
           ></div>
