@@ -1,0 +1,63 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Restaurant {
+  id        String   @id @default(cuid())
+  name      String
+  logo      String?
+  banner    String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  bills     Bill[]
+}
+
+model Bill {
+  id             String   @id @default(cuid())
+  restaurantId   String
+  tableNumber    String
+  status         String   @default("open") // open, partially_paid, paid
+  subtotal       Float
+  serviceFee     Float    @default(0.70)
+  totalAmount    Float
+  paidAmount     Float    @default(0)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  
+  restaurant     Restaurant @relation(fields: [restaurantId], references: [id])
+  items          OrderItem[]
+  payments       Payment[]
+}
+
+model OrderItem {
+  id          String   @id @default(cuid())
+  billId      String
+  name        String
+  quantity    Int
+  unitPrice   Float
+  totalPrice  Float
+  category    String   @default("food") // food, non_alcoholic, alcoholic
+  btwRate     Float    // 9 or 21
+  createdAt   DateTime @default(now())
+  
+  bill        Bill     @relation(fields: [billId], references: [id])
+}
+
+model Payment {
+  id            String   @id @default(cuid())
+  billId        String
+  amount        Float
+  tipAmount     Float    @default(0)
+  method        String   // ideal, apple_pay, credit_card
+  status        String   @default("pending") // pending, completed, failed
+  customerEmail String?
+  createdAt     DateTime @default(now())
+  
+  bill          Bill     @relation(fields: [billId], references: [id])
+}
