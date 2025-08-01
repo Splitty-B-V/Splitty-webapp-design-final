@@ -113,7 +113,7 @@ export default function ThankYouView({ restaurantId, tableId, paymentData: propP
                 placeholder="je@email.nl"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-3 py-2.5 sm:px-4 sm:py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all text-black text-sm sm:text-base"
+                className="w-full px-3 py-2.5 sm:px-4 sm:py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all text-black text-base"
               />
               <button 
                 onClick={() => {
@@ -222,7 +222,7 @@ export default function ThankYouView({ restaurantId, tableId, paymentData: propP
                 <>
                   <textarea
                     placeholder="Vertel anderen over je ervaring..."
-                    className="w-full p-3 sm:p-4 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-gray-400 focus:border-gray-400 transition-colors resize-none text-xs sm:text-sm text-gray-900 placeholder-gray-400"
+                    className="w-full p-3 sm:p-4 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-gray-400 focus:border-gray-400 transition-colors resize-none text-base text-gray-900 placeholder-gray-400"
                     rows={3}
                     value={review}
                     onChange={(e) => setReview(e.target.value)}

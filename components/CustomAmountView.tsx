@@ -150,6 +150,7 @@ export default function CustomAmountView({ total, onBack, onContinue }: CustomAm
                   pattern="[0-9]*"
                   placeholder="0"
                   className="w-20 sm:w-24 text-3xl sm:text-5xl font-bold text-black outline-none text-center bg-transparent placeholder-gray-300"
+                  style={{ fontSize: '28px' }}
                   type="text"
                   value={euros}
                   onChange={handleEurosChange}
@@ -160,6 +161,7 @@ export default function CustomAmountView({ total, onBack, onContinue }: CustomAm
                   pattern="[0-9]*"
                   placeholder="00"
                   className="w-12 sm:w-16 text-2xl sm:text-3xl font-bold text-black outline-none bg-transparent placeholder-gray-300"
+                  style={{ fontSize: '24px' }}
                   type="text"
                   value={cents}
                   onChange={handleCentsChange}
