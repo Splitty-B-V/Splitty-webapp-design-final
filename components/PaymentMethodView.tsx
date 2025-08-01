@@ -82,8 +82,8 @@ export default function PaymentMethodView({
   return (
     <div className="flex flex-col h-full" style={{ maxHeight: 'calc(95vh - 100px)' }}>
       {/* Header */}
-      <div className="flex-shrink-0 pt-6 pb-4 px-4">
-        <div className="flex items-center justify-between mb-4">
+      <div className="flex-shrink-0 pt-4 pb-3 px-4 sm:pt-6 sm:pb-4">
+        <div className="flex items-center justify-between mb-3 sm:mb-4">
           <button 
             className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors"
             onClick={onBack}
@@ -92,21 +92,21 @@ export default function PaymentMethodView({
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
             </svg>
           </button>
-          <h2 className="text-xl font-bold text-black">Afrekenen</h2>
+          <h2 className="text-lg sm:text-xl font-bold text-black">Afrekenen</h2>
           <div className="w-10"></div>
         </div>
       </div>
 
       {/* Main content */}
-      <div className="flex-1 px-4 pb-4 overflow-y-auto">
+      <div className="flex-1 px-4 pb-3 sm:pb-4 overflow-y-auto">
         {/* Timer card */}
-        <div className="bg-gradient-to-r from-orange-50 to-yellow-50 rounded-2xl p-4 mb-6 border border-orange-200">
+        <div className="bg-gradient-to-r from-orange-50 to-yellow-50 rounded-xl sm:rounded-2xl p-3 sm:p-4 mb-4 sm:mb-6 border border-orange-200">
           <div className="flex items-center justify-between mb-2">
-            <div className="flex items-center gap-2">
-              <span className="text-2xl">⏱️</span>
-              <span className="font-medium text-gray-700">Tijd om af te ronden</span>
+            <div className="flex items-center gap-1.5 sm:gap-2">
+              <span className="text-xl sm:text-2xl">⏱️</span>
+              <span className="font-medium text-gray-700 text-sm sm:text-base">Tijd om af te ronden</span>
             </div>
-            <span className="text-2xl font-bold text-orange-600">{formatTime(timeRemaining)}</span>
+            <span className="text-xl sm:text-2xl font-bold text-orange-600">{formatTime(timeRemaining)}</span>
           </div>
           <div className="h-2 w-full bg-orange-100 rounded-full overflow-hidden">
             <div 
@@ -117,40 +117,40 @@ export default function PaymentMethodView({
         </div>
 
         {/* Payment summary */}
-        <div className="bg-gray-50 rounded-2xl p-6 mb-6">
-          <h3 className="font-semibold text-gray-900 mb-4">Overzicht</h3>
-          <div className="space-y-3">
+        <div className="bg-gray-50 rounded-xl sm:rounded-2xl p-4 sm:p-6 mb-4 sm:mb-6">
+          <h3 className="font-semibold text-gray-900 mb-3 sm:mb-4 text-sm sm:text-base">Overzicht</h3>
+          <div className="space-y-2 sm:space-y-3">
             <div className="flex justify-between items-center">
-              <span className="text-gray-600">Subtotaal</span>
-              <span className="font-medium text-gray-900">€{subtotal.toFixed(2).replace('.', ',')}</span>
+              <span className="text-gray-600 text-xs sm:text-sm">Subtotaal</span>
+              <span className="font-medium text-gray-900 text-sm sm:text-base">€{subtotal.toFixed(2).replace('.', ',')}</span>
             </div>
             <div className="flex justify-between items-center">
-              <div className="flex items-center gap-2">
-                <span className="text-gray-600">Servicekosten</span>
+              <div className="flex items-center gap-1.5 sm:gap-2">
+                <span className="text-gray-600 text-xs sm:text-sm">Servicekosten</span>
                 <div className="group relative">
                   <svg className="w-4 h-4 text-gray-400 cursor-help" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
-                  <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap">
+                  <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1.5 sm:px-3 sm:py-2 bg-gray-900 text-white text-[10px] sm:text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap">
                     Splitty transactiekosten
                   </div>
                 </div>
               </div>
-              <span className="font-medium text-gray-900">€{serviceFee.toFixed(2).replace('.', ',')}</span>
+              <span className="font-medium text-gray-900 text-sm sm:text-base">€{serviceFee.toFixed(2).replace('.', ',')}</span>
             </div>
             {tipAmount > 0 && (
               <div className="flex justify-between items-center">
-                <div className="flex items-center gap-2">
-                  <span className="text-gray-600">Fooi</span>
-                  <span className="text-xl">💝</span>
+                <div className="flex items-center gap-1.5 sm:gap-2">
+                  <span className="text-gray-600 text-xs sm:text-sm">Fooi</span>
+                  <span className="text-lg sm:text-xl">💝</span>
                 </div>
-                <span className="font-medium text-green-600">€{tipAmount.toFixed(2).replace('.', ',')}</span>
+                <span className="font-medium text-green-600 text-sm sm:text-base">€{tipAmount.toFixed(2).replace('.', ',')}</span>
               </div>
             )}
-            <div className="pt-3 mt-3 border-t border-gray-200">
+            <div className="pt-2 mt-2 sm:pt-3 sm:mt-3 border-t border-gray-200">
               <div className="flex justify-between items-center">
-                <span className="font-semibold text-gray-900">Totaal</span>
-                <span className="text-2xl font-bold text-black">€{totalAmount.toFixed(2).replace('.', ',')}</span>
+                <span className="font-semibold text-gray-900 text-sm sm:text-base">Totaal</span>
+                <span className="text-xl sm:text-2xl font-bold text-black">€{totalAmount.toFixed(2).replace('.', ',')}</span>
               </div>
             </div>
           </div>
@@ -158,20 +158,20 @@ export default function PaymentMethodView({
 
         {/* Payment methods */}
         <div className="mb-4">
-          <h3 className="font-semibold text-gray-900 mb-3">Betaalmethode</h3>
-          <div className="space-y-3">
+          <h3 className="font-semibold text-gray-900 mb-2 sm:mb-3 text-sm sm:text-base">Betaalmethode</h3>
+          <div className="space-y-2 sm:space-y-3">
             {/* iDEAL */}
             <button
               onClick={() => setSelectedMethod('ideal')}
-              className={`w-full p-3 rounded-xl border transition-all duration-200 ${
+              className={`w-full p-2.5 sm:p-3 rounded-xl border transition-all duration-200 ${
                 selectedMethod === 'ideal'
                   ? 'bg-gray-50 border-gray-900'
                   : 'bg-white border-gray-200 hover:border-gray-400'
               }`}
             >
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2.5 sm:gap-3">
                 <div className="flex-shrink-0">
-                  <div className={`w-5 h-5 rounded-full border-2 ${
+                  <div className={`w-4 h-4 sm:w-5 sm:h-5 rounded-full border-2 ${
                     selectedMethod === 'ideal' 
                       ? 'border-gray-900 bg-gray-900' 
                       : 'border-gray-300'
@@ -184,12 +184,12 @@ export default function PaymentMethodView({
                   </div>
                 </div>
                 <div className="flex-grow text-left">
-                  <h4 className="font-medium text-gray-900">iDEAL</h4>
+                  <h4 className="font-medium text-gray-900 text-sm sm:text-base">iDEAL</h4>
                 </div>
-                <div className="flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-lg bg-orange-50">
+                <div className="flex-shrink-0 w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center rounded-lg bg-orange-50">
                   <img
                     alt="iDEAL"
-                    className="w-6 h-6 object-contain"
+                    className="w-5 h-5 sm:w-6 sm:h-6 object-contain"
                     src="/images/ideal.png"
                   />
                 </div>
@@ -199,15 +199,15 @@ export default function PaymentMethodView({
             {/* Apple Pay */}
             <button
               onClick={() => setSelectedMethod('apple')}
-              className={`w-full p-3 rounded-xl border transition-all duration-200 ${
+              className={`w-full p-2.5 sm:p-3 rounded-xl border transition-all duration-200 ${
                 selectedMethod === 'apple'
                   ? 'bg-gray-50 border-gray-900'
                   : 'bg-white border-gray-200 hover:border-gray-400'
               }`}
             >
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2.5 sm:gap-3">
                 <div className="flex-shrink-0">
-                  <div className={`w-5 h-5 rounded-full border-2 ${
+                  <div className={`w-4 h-4 sm:w-5 sm:h-5 rounded-full border-2 ${
                     selectedMethod === 'apple' 
                       ? 'border-gray-900 bg-gray-900' 
                       : 'border-gray-300'
@@ -220,14 +220,14 @@ export default function PaymentMethodView({
                   </div>
                 </div>
                 <div className="flex-grow text-left">
-                  <h4 className="font-medium text-gray-900">Apple Pay</h4>
+                  <h4 className="font-medium text-gray-900 text-sm sm:text-base">Apple Pay</h4>
                 </div>
-                <div className="flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-lg bg-gray-100">
+                <div className="flex-shrink-0 w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center rounded-lg bg-gray-100">
                   <Image
                     alt="Apple Pay"
                     width={28}
                     height={28}
-                    className="w-7 h-7 object-contain"
+                    className="w-6 h-6 sm:w-7 sm:h-7 object-contain"
                     src="/images/apple-pay.png"
                   />
                 </div>
@@ -237,15 +237,15 @@ export default function PaymentMethodView({
             {/* Credit Card */}
             <button
               onClick={() => setSelectedMethod('card')}
-              className={`w-full p-3 rounded-xl border transition-all duration-200 ${
+              className={`w-full p-2.5 sm:p-3 rounded-xl border transition-all duration-200 ${
                 selectedMethod === 'card'
                   ? 'bg-gray-50 border-gray-900'
                   : 'bg-white border-gray-200 hover:border-gray-400'
               }`}
             >
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2.5 sm:gap-3">
                 <div className="flex-shrink-0">
-                  <div className={`w-5 h-5 rounded-full border-2 ${
+                  <div className={`w-4 h-4 sm:w-5 sm:h-5 rounded-full border-2 ${
                     selectedMethod === 'card' 
                       ? 'border-gray-900 bg-gray-900' 
                       : 'border-gray-300'
@@ -258,10 +258,10 @@ export default function PaymentMethodView({
                   </div>
                 </div>
                 <div className="flex-grow text-left">
-                  <h4 className="font-medium text-gray-900">Creditcard</h4>
+                  <h4 className="font-medium text-gray-900 text-sm sm:text-base">Creditcard</h4>
                 </div>
-                <div className="flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-lg bg-blue-50">
-                  <svg className="w-5 h-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <div className="flex-shrink-0 w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center rounded-lg bg-blue-50">
+                  <svg className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
                   </svg>
                 </div>
@@ -272,10 +272,10 @@ export default function PaymentMethodView({
       </div>
 
       {/* Bottom section with payment button */}
-      <div className="flex-shrink-0 bg-white border-t border-gray-100 p-4">
+      <div className="flex-shrink-0 bg-white border-t border-gray-100 p-3 sm:p-4">
         <button
           type="button"
-          className="w-full py-4 px-6 bg-black text-white rounded-2xl font-medium transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] relative overflow-hidden group"
+          className="w-full py-3 px-4 sm:py-4 sm:px-6 bg-black text-white rounded-2xl font-medium text-sm sm:text-base transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] relative overflow-hidden group"
           onClick={async () => {
             try {
               // For static site, always simulate payment
