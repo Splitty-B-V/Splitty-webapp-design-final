@@ -67,7 +67,7 @@ export default function TipView({ subtotal, serviceFee, onBack, onContinue }: Ti
       </div>
 
       {/* Fun header image */}
-      <div className="px-4 mb-3 sm:mb-4">
+      <div className="px-4 mb-6 sm:mb-8">
         <div className="bg-gradient-to-br from-yellow-100 to-orange-100 rounded-2xl p-4 sm:p-6 text-center">
           <div className="text-4xl sm:text-6xl mb-1 sm:mb-2">💝</div>
           <p className="text-base sm:text-lg font-semibold text-gray-800">Geef een extra fooi voor het personeel</p>
@@ -169,11 +169,10 @@ export default function TipView({ subtotal, serviceFee, onBack, onContinue }: Ti
         </div>
         
         <button 
-          className="w-full py-3 px-4 sm:py-4 sm:px-6 bg-black text-white rounded-2xl font-medium text-sm sm:text-base transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] relative overflow-hidden group"
+          className="w-full py-3 px-4 sm:py-4 sm:px-6 bg-black text-white rounded-2xl font-medium text-sm sm:text-base transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
           onClick={() => onContinue(tipAmount)}
         >
-          <div className="absolute inset-0 bg-gradient-to-r from-green-600 to-emerald-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-          <span className="relative">Bevestigen</span>
+          Verder naar betalen
         </button>
       </div>
     </div>
