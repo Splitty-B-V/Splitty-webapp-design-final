@@ -94,8 +94,8 @@ export default function CustomAmountView({ total, onBack, onContinue }: CustomAm
   return (
     <div className="flex flex-col h-full" style={{ maxHeight: 'calc(95vh - 100px)' }}>
       {/* Header */}
-      <div className="flex-shrink-0 pt-6 pb-4 px-4">
-        <div className="flex items-center justify-between mb-4">
+      <div className="flex-shrink-0 pt-4 pb-3 px-4 sm:pt-6 sm:pb-4">
+        <div className="flex items-center justify-between mb-3 sm:mb-4">
           <button 
             className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors"
             onClick={onBack}
@@ -104,27 +104,27 @@ export default function CustomAmountView({ total, onBack, onContinue }: CustomAm
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
             </svg>
           </button>
-          <h2 className="text-xl font-bold text-black">Aangepast bedrag</h2>
+          <h2 className="text-lg sm:text-xl font-bold text-black">Aangepast bedrag</h2>
           <div className="w-10"></div>
         </div>
-        <p className="text-sm text-gray-600 text-center">
+        <p className="text-xs sm:text-sm text-gray-600 text-center">
           Kies het bedrag dat je wilt betalen
         </p>
       </div>
 
       {/* Main content */}
-      <div className="flex-1 px-4 pb-4 overflow-y-auto">
+      <div className="flex-1 px-4 pb-3 sm:pb-4 overflow-y-auto">
         {/* Bill status */}
-        <div className="mb-6">
+        <div className="mb-4 sm:mb-6">
           {/* Remaining to pay - highlighted */}
-          <div className="bg-gradient-to-br from-orange-50 via-amber-50 to-orange-50 rounded-2xl p-6 shadow-sm">
+          <div className="bg-gradient-to-br from-orange-50 via-amber-50 to-orange-50 rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-sm">
             <div className="text-center">
-              <div className="inline-flex items-center gap-2 bg-white/70 backdrop-blur-sm px-3 py-1 rounded-full mb-3">
+              <div className="inline-flex items-center gap-2 bg-white/70 backdrop-blur-sm px-2 py-0.5 sm:px-3 sm:py-1 rounded-full mb-2 sm:mb-3">
                 <div className="w-2 h-2 bg-orange-400 rounded-full animate-pulse"></div>
-                <p className="text-xs font-semibold text-orange-700 uppercase tracking-wide">Nog te betalen</p>
+                <p className="text-[10px] sm:text-xs font-semibold text-orange-700 uppercase tracking-wide">Nog te betalen</p>
               </div>
-              <p className="text-4xl font-bold text-gray-900 mb-4">€{remaining.toFixed(2).replace('.', ',')}</p>
-              <div className="flex items-center justify-center gap-4 text-xs">
+              <p className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">€{remaining.toFixed(2).replace('.', ',')}</p>
+              <div className="flex items-center justify-center gap-3 sm:gap-4 text-[10px] sm:text-xs">
                 <div className="flex items-center gap-1">
                   <span className="text-gray-500">Totaal</span>
                   <span className="font-medium text-gray-700">€{total.toFixed(2).replace('.', ',')}</span>
@@ -140,26 +140,26 @@ export default function CustomAmountView({ total, onBack, onContinue }: CustomAm
         </div>
 
         {/* Amount input section */}
-        <div className="bg-white rounded-2xl border-2 border-gray-200 p-6 mb-6">
-          <div className="text-center mb-6">
-            <div className="flex items-center justify-center gap-1 mb-2">
-              <span className="text-5xl font-bold text-gray-900">€</span>
+        <div className="bg-white rounded-xl sm:rounded-2xl border-2 border-gray-200 p-4 sm:p-6 mb-4 sm:mb-6">
+          <div className="text-center mb-4 sm:mb-6">
+            <div className="flex items-center justify-center gap-0.5 sm:gap-1 mb-2">
+              <span className="text-3xl sm:text-5xl font-bold text-gray-900">€</span>
               <div className="flex items-baseline">
                 <input 
                   inputMode="numeric"
                   pattern="[0-9]*"
                   placeholder="0"
-                  className="w-24 text-5xl font-bold text-gray-900 outline-none text-center bg-transparent"
+                  className="w-20 sm:w-24 text-3xl sm:text-5xl font-bold text-gray-900 outline-none text-center bg-transparent"
                   type="text"
                   value={euros}
                   onChange={handleEurosChange}
                 />
-                <span className="text-3xl font-bold text-gray-500">,</span>
+                <span className="text-2xl sm:text-3xl font-bold text-gray-500">,</span>
                 <input 
                   inputMode="numeric"
                   pattern="[0-9]*"
                   placeholder="00"
-                  className="w-16 text-3xl font-bold text-gray-500 outline-none bg-transparent"
+                  className="w-12 sm:w-16 text-2xl sm:text-3xl font-bold text-gray-500 outline-none bg-transparent"
                   type="text"
                   value={cents}
                   onChange={handleCentsChange}
@@ -167,18 +167,18 @@ export default function CustomAmountView({ total, onBack, onContinue }: CustomAm
                 />
               </div>
             </div>
-            <p className="text-sm text-gray-500">
+            <p className="text-xs sm:text-sm text-gray-500">
               Voer het gewenste bedrag in (max €{remaining.toFixed(2).replace('.', ',')})
             </p>
           </div>
 
           {/* Preset amount buttons */}
-          <div className="grid grid-cols-4 gap-2">
+          <div className="grid grid-cols-4 gap-1.5 sm:gap-2">
             {presetAmounts.map((preset) => (
               <button
                 key={preset.label}
                 onClick={() => setPresetAmount(preset.amount)}
-                className="py-3 px-4 rounded-xl font-medium transition-all duration-200 bg-gray-50 text-gray-700 hover:bg-gray-100"
+                className="py-2.5 px-3 sm:py-3 sm:px-4 rounded-lg sm:rounded-xl font-medium text-xs sm:text-sm transition-all duration-200 bg-gray-50 text-gray-700 hover:bg-gray-100"
               >
                 {preset.label}
               </button>
@@ -189,16 +189,16 @@ export default function CustomAmountView({ total, onBack, onContinue }: CustomAm
       </div>
 
       {/* Bottom section */}
-      <div className="flex-shrink-0 bg-gray-50 border-t border-gray-200 p-4">
+      <div className="flex-shrink-0 bg-gray-50 border-t border-gray-200 p-3 sm:p-4">
         {enteredAmount > 0 && (
-          <div className="flex items-center justify-between mb-4">
-            <span className="text-sm text-gray-600">Je betaalt</span>
-            <span className="text-xl font-bold text-black">€{enteredAmount.toFixed(2).replace('.', ',')}</span>
+          <div className="flex items-center justify-between mb-3 sm:mb-4">
+            <span className="text-xs sm:text-sm text-gray-600">Je betaalt</span>
+            <span className="text-lg sm:text-xl font-bold text-black">€{enteredAmount.toFixed(2).replace('.', ',')}</span>
           </div>
         )}
         <button 
           disabled={!isValidAmount}
-          className={`w-full py-4 px-6 rounded-2xl font-medium transition-all duration-200 ${
+          className={`w-full py-3 px-4 sm:py-4 sm:px-6 rounded-2xl font-medium text-sm sm:text-base transition-all duration-200 ${
             isValidAmount 
               ? 'bg-black text-white hover:scale-[1.02] active:scale-[0.98]' 
               : 'bg-gray-100 text-gray-400 cursor-not-allowed'
