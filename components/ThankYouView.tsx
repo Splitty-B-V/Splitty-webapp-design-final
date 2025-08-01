@@ -49,7 +49,7 @@ export default function ThankYouView({ restaurantId, tableId, paymentData: propP
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-3 sm:p-4">
       <div className="w-full max-w-md space-y-4 sm:space-y-6">
         {/* Success message */}
-        <div className="text-center mb-4 sm:mb-6">
+        <div className="text-center mb-4 sm:mb-6 pt-6 sm:pt-8">
           <div className="mx-auto w-16 h-16 sm:w-20 sm:h-20 bg-green-100 rounded-full flex items-center justify-center mb-4 sm:mb-6">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor" className="w-10 h-10 sm:w-12 sm:h-12 text-green-600">
               <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
