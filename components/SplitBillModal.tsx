@@ -7,6 +7,7 @@ import PayForPeopleView from './PayForPeopleView'
 import CustomAmountView from './CustomAmountView'
 import TipView from './TipView'
 import PaymentMethodView from './PaymentMethodView'
+import { useBill } from '@/contexts/BillContext'
 
 interface OrderItem {
   name: string
@@ -22,6 +23,7 @@ interface SplitBillModalProps {
 }
 
 export default function SplitBillModal({ isOpen, onClose, orderItems }: SplitBillModalProps) {
+  const { activeSplitMode, totalPeopleForSplit, remainingAmount, totalBill, payments } = useBill()
   const [currentView, setCurrentView] = useState<'options' | 'pay-items' | 'split-equally' | 'pay-for-people' | 'custom-amount' | 'tip' | 'payment'>('options')
   const [previousView, setPreviousView] = useState<'pay-items' | 'pay-for-people' | 'custom-amount'>('pay-items')
   const [selectedAmount, setSelectedAmount] = useState(0)
@@ -29,13 +31,37 @@ export default function SplitBillModal({ isOpen, onClose, orderItems }: SplitBil
   const [totalPeople, setTotalPeople] = useState(2)
   const [splitMode, setSplitMode] = useState<string>('Onbekend')
   const [selectedPeopleCount, setSelectedPeopleCount] = useState(1)
+  const [selectedItems, setSelectedItems] = useState<{ name: string; quantity: number; price: number }[]>([])
   
   const subtotal = orderItems.reduce((sum, item) => sum + item.totalPrice, 0)
   const total = subtotal // Service fee will be added only at payment
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden'
-      setCurrentView('options') // Reset view when modal opens
+      
+      // If there's an active split mode, go directly to that view
+      if (activeSplitMode) {
+        if (activeSplitMode === 'Betaal voor je items') {
+          setSplitMode('Betaal voor je items')
+          setCurrentView('pay-items')
+        } else if (activeSplitMode === 'Gelijk verdelen' || activeSplitMode.startsWith('Gelijk verdelen')) {
+          setSplitMode('Gelijk verdelen')
+          // If we have totalPeopleForSplit, go directly to pay-for-people
+          if (totalPeopleForSplit) {
+            setTotalPeople(totalPeopleForSplit)
+            setCurrentView('pay-for-people')
+          } else {
+            setCurrentView('split-equally')
+          }
+        } else if (activeSplitMode === 'Aangepast bedrag') {
+          setSplitMode('Aangepast bedrag')
+          setCurrentView('custom-amount')
+        } else {
+          setCurrentView('options')
+        }
+      } else {
+        setCurrentView('options') // Reset view when modal opens if no active split mode
+      }
     } else {
       document.body.style.overflow = 'unset'
     }
@@ -43,7 +69,7 @@ export default function SplitBillModal({ isOpen, onClose, orderItems }: SplitBil
     return () => {
       document.body.style.overflow = 'unset'
     }
-  }, [isOpen])
+  }, [isOpen, activeSplitMode, totalPeopleForSplit])
 
   if (!isOpen) return null
 
@@ -114,6 +140,24 @@ export default function SplitBillModal({ isOpen, onClose, orderItems }: SplitBil
                 <h2 className="text-2xl font-bold mb-2 text-black text-center">Rekening delen</h2>
                 <p className="text-sm text-gray-600 mb-8 text-center">Kies hoe je wilt betalen</p>
                 
+                {activeSplitMode && (
+                  <div className="mx-6 mb-6 bg-blue-50 border border-blue-200 rounded-xl p-4">
+                    <div className="flex items-start gap-3">
+                      <svg className="w-5 h-5 text-blue-600 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      <div>
+                        <p className="text-sm font-medium text-blue-900">
+                          Betalingsmodus: <span className="font-bold">{activeSplitMode}</span>
+                        </p>
+                        <p className="text-xs text-blue-700 mt-1">
+                          Alle volgende betalingen worden in deze modus verwerkt.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+                
                 <div className="space-y-3">
                   {paymentOptions.map((option, index) => (
                     <button
@@ -156,15 +200,16 @@ export default function SplitBillModal({ isOpen, onClose, orderItems }: SplitBil
               <PayForItemsView 
                 items={orderItems} 
                 onBack={() => setCurrentView('options')}
-                onContinue={(amount) => {
+                onContinue={(amount, items) => {
                   setSelectedAmount(amount)
+                  setSelectedItems(items || [])
                   setPreviousView('pay-items')
                   setCurrentView('tip')
                 }}
               />
             ) : currentView === 'split-equally' ? (
               <SplitEquallyView 
-                total={total}
+                total={payments.length === 0 ? totalBill : remainingAmount}
                 onBack={() => setCurrentView('options')}
                 onContinue={(people) => {
                   setTotalPeople(people)
@@ -174,13 +219,17 @@ export default function SplitBillModal({ isOpen, onClose, orderItems }: SplitBil
             ) : currentView === 'pay-for-people' ? (
               <PayForPeopleView 
                 totalPeople={totalPeople}
-                perPersonAmount={total / totalPeople}
-                total={total}
-                onBack={() => setCurrentView('split-equally')}
+                perPersonAmount={totalBill / totalPeople}
+                total={remainingAmount}
+                onBack={() => {
+                  // If we have a saved total people count, go back to options
+                  // Otherwise go back to split-equally
+                  setCurrentView(totalPeopleForSplit ? 'options' : 'split-equally')
+                }}
                 onContinue={(peopleCount, amount) => {
                   setSelectedAmount(amount)
                   setSelectedPeopleCount(peopleCount)
-                  setSplitMode(`Gelijk verdelen (${peopleCount} personen)`)
+                  setSplitMode(`Gelijk verdelen (${totalPeople} personen)`)
                   setPreviousView('pay-for-people')
                   setCurrentView('tip')
                 }}
@@ -212,6 +261,8 @@ export default function SplitBillModal({ isOpen, onClose, orderItems }: SplitBil
                 serviceFee={0.70}
                 tipAmount={tipAmount}
                 splitMode={splitMode}
+                selectedItems={selectedItems}
+                peopleCount={splitMode?.includes('Gelijk verdelen') ? selectedPeopleCount : undefined}
                 onBack={() => setCurrentView('tip')}
                 onPay={() => {}}
               />

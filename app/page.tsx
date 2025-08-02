@@ -1,33 +1,29 @@
+'use client'
+
 import Image from 'next/image'
 import Footer from '@/components/Footer'
 import ActionButtons from '@/components/ActionButtons'
 import BTWSummary from '@/components/BTWSummary'
 import { processOrderItems, calculateTotalBTW } from '@/lib/btw-calculator'
+import { useBill } from '@/contexts/BillContext'
+import BillFullyPaidView from '@/components/BillFullyPaidView'
 
-export default function Home() {
-  const orderItems = [
-    { name: 'Soup', quantity: 3, unitPrice: 4.50, totalPrice: 13.50 },
-    { name: '5 Spice Lamb Salad', quantity: 2, unitPrice: 9.95, totalPrice: 19.90 },
-    { name: 'Chorizo Sandwich', quantity: 3, unitPrice: 7.50, totalPrice: 22.50 },
-    { name: 'Cod & Chips', quantity: 4, unitPrice: 10.95, totalPrice: 43.80 },
-    { name: 'Amaretto Cheese Cake', quantity: 5, unitPrice: 5.50, totalPrice: 27.50 },
-    { name: 'Crispy Calamari', quantity: 2, unitPrice: 8.95, totalPrice: 17.90 },
-    { name: 'Tiramisu', quantity: 3, unitPrice: 6.50, totalPrice: 19.50 },
-    { name: 'Heineken Beer', quantity: 4, unitPrice: 3.50, totalPrice: 14.00 },
-    { name: 'House Wine Red', quantity: 2, unitPrice: 5.50, totalPrice: 11.00 },
-  ]
-
-  const subtotal = orderItems.reduce((sum, item) => sum + item.totalPrice, 0)
+export default function BillPage() {
+  const { orderItems, totalBill, paidAmount, remainingAmount, isFullyPaid, activeSplitMode, resetBill } = useBill()
+  
+  const subtotal = totalBill
   const total = subtotal
   
   // Calculate BTW with proper rates
   const processedItems = processOrderItems(orderItems)
   const { totalBTW, btwBreakdown } = calculateTotalBTW(processedItems)
   
-  // For demo purposes - showing 30% paid
-  const paidAmount = total * 0.3
-  const remainingAmount = total - paidAmount
   const paidPercentage = Math.round((paidAmount / total) * 100)
+  
+  // If bill is fully paid, show the fully paid view
+  if (isFullyPaid) {
+    return <BillFullyPaidView />
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -51,6 +47,20 @@ export default function Home() {
         <main className="w-full flex-grow">
           {/* Spacing for logo overlap */}
           <div className="h-16 bg-white"></div>
+          
+          {/* Active Split Mode Banner */}
+          {activeSplitMode && (
+            <div className="bg-gradient-to-r from-green-50 to-emerald-50 border-b border-green-200 px-4 py-3 sm:px-6 sm:py-4">
+              <div className="flex items-center justify-center gap-2">
+                <svg className="w-5 h-5 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
+                <p className="text-sm sm:text-base text-green-800 font-medium">
+                  Split mode: <span className="font-bold">{activeSplitMode}</span>
+                </p>
+              </div>
+            </div>
+          )}
           
           {/* Total Amount Header - Clean & Modern */}
           <div className="bg-white border-b border-gray-200 px-4 pt-5 pb-4 sm:px-6 sm:pt-6 sm:pb-5">

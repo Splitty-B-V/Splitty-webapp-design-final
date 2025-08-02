@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useBill } from '@/contexts/BillContext'
 
 interface CustomAmountViewProps {
   total: number
@@ -9,8 +10,9 @@ interface CustomAmountViewProps {
 }
 
 export default function CustomAmountView({ total, onBack, onContinue }: CustomAmountViewProps) {
-  const alreadyPaid = total * 0.3 // 30% already paid (from demo)
-  const remaining = total - alreadyPaid
+  const { paidAmount, remainingAmount } = useBill()
+  const alreadyPaid = paidAmount
+  const remaining = remainingAmount
   
   // Calculate default cents from remaining amount
   const remainingCents = Math.round((remaining % 1) * 100)

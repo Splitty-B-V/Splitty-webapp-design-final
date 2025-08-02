@@ -287,7 +287,10 @@ export default function ThankYouView({ restaurantId, tableId, paymentData: propP
         {/* Back button */}
         <button 
           className="w-full py-3 sm:py-4 bg-black text-white rounded-2xl font-medium hover:bg-gray-900 transition-colors text-sm sm:text-base"
-          onClick={() => router.push('/')}
+          onClick={() => {
+            // Use window.location for more reliable navigation in static export
+            window.location.href = '/'
+          }}
         >
           Terug naar rekening
         </button>

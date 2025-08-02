@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useBill } from '@/contexts/BillContext'
 
 interface OrderItem {
   name: string
@@ -12,10 +13,11 @@ interface OrderItem {
 interface PayForItemsViewProps {
   items: OrderItem[]
   onBack: () => void
-  onContinue: (amount: number) => void
+  onContinue: (amount: number, selectedItems?: { name: string; quantity: number; price: number }[]) => void
 }
 
 export default function PayForItemsView({ items, onBack, onContinue }: PayForItemsViewProps) {
+  const { getRemainingQuantityForItem } = useBill()
   const [selectedQuantities, setSelectedQuantities] = useState<Record<string, number>>(
     items.reduce((acc, item) => ({ ...acc, [item.name]: 0 }), {})
   )
@@ -23,9 +25,8 @@ export default function PayForItemsView({ items, onBack, onContinue }: PayForIte
   const handleQuantityChange = (itemName: string, delta: number) => {
     setSelectedQuantities(prev => {
       const currentQty = prev[itemName] || 0
-      const item = items.find(i => i.name === itemName)
-      const maxQty = item?.quantity || 0
-      const newQty = Math.max(0, Math.min(currentQty + delta, maxQty))
+      const remainingQty = getRemainingQuantityForItem(itemName)
+      const newQty = Math.max(0, Math.min(currentQty + delta, remainingQty))
       return { ...prev, [itemName]: newQty }
     })
   }
@@ -61,54 +62,78 @@ export default function PayForItemsView({ items, onBack, onContinue }: PayForIte
       {/* Scrollable items list */}
       <div className="flex-1 min-h-0 overflow-y-auto px-4">
         <div className="space-y-2 sm:space-y-3 pt-3 pb-4 sm:pt-4 sm:pb-6">
-        {items.map((item) => {
+        {items
+          .sort((a, b) => {
+            // Sort items: unpaid first, then fully paid
+            const aRemaining = getRemainingQuantityForItem(a.name)
+            const bRemaining = getRemainingQuantityForItem(b.name)
+            
+            if (aRemaining === 0 && bRemaining > 0) return 1
+            if (aRemaining > 0 && bRemaining === 0) return -1
+            return 0
+          })
+          .map((item) => {
           const selectedQty = selectedQuantities[item.name] || 0
+          const remainingQty = getRemainingQuantityForItem(item.name)
+          const isFullyPaid = remainingQty === 0
           const isSelected = selectedQty > 0
           
           return (
             <div 
               key={item.name} 
               className={`p-3 sm:p-4 rounded-xl sm:rounded-2xl transition-all duration-200 ${
-                isSelected ? 'bg-white border-2 border-green-500 shadow-md' : 'bg-gray-50 hover:bg-gray-100'
+                isFullyPaid 
+                  ? 'bg-gray-100 border-2 border-gray-300 opacity-60' 
+                  : isSelected 
+                    ? 'bg-white border-2 border-green-500 shadow-md' 
+                    : 'bg-gray-50 hover:bg-gray-100'
               }`}
             >
               <div className="flex items-center justify-between">
                 <div className="flex-1">
                   <div className="flex items-center justify-between mb-1 sm:mb-2">
-                    <h3 className="font-semibold text-black text-sm sm:text-base">
+                    <h3 className={`font-semibold text-sm sm:text-base ${isFullyPaid ? 'text-gray-500' : 'text-black'}`}>
                       {item.name}
+                      {isFullyPaid && (
+                        <span className="ml-2 text-xs text-gray-500">(Volledig betaald)</span>
+                      )}
                     </h3>
-                    <span className="font-medium text-gray-700 text-sm sm:text-base">
+                    <span className={`font-medium text-sm sm:text-base ${isFullyPaid ? 'text-gray-500' : 'text-gray-700'}`}>
                       €{item.unitPrice.toFixed(2).replace('.', ',')}
                     </span>
                   </div>
                   <div className="flex items-center justify-between">
                     <p className="text-xs sm:text-sm text-gray-600">
-                      Nog {item.quantity - selectedQty} van {item.quantity} beschikbaar
+                      {isFullyPaid 
+                        ? `Alle ${item.quantity} betaald` 
+                        : `Nog ${remainingQty - selectedQty} van ${item.quantity} beschikbaar`
+                      }
                     </p>
-                    <div className="flex items-center gap-1.5 sm:gap-2">
-                      <button 
-                        className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center rounded-full bg-gray-200 text-gray-700 hover:bg-gray-300 transition-colors disabled:opacity-50"
-                        onClick={() => handleQuantityChange(item.name, -1)}
-                        disabled={selectedQty === 0}
-                      >
-                        <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 12H4" />
-                        </svg>
-                      </button>
-                      <span className={`w-6 sm:w-8 text-center font-bold text-base sm:text-lg ${isSelected ? 'text-green-600' : 'text-black'}`}>
-                        {selectedQty}
-                      </span>
-                      <button 
-                        className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center rounded-full bg-gray-200 text-gray-700 hover:bg-gray-300 transition-colors disabled:opacity-50"
-                        onClick={() => handleQuantityChange(item.name, 1)}
-                        disabled={selectedQty >= item.quantity}
-                      >
-                        <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" />
-                        </svg>
-                      </button>
-                    </div>
+                    {!isFullyPaid && (
+                      <div className="flex items-center gap-1.5 sm:gap-2">
+                        <button 
+                          className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center rounded-full bg-gray-200 text-gray-700 hover:bg-gray-300 transition-colors disabled:opacity-50"
+                          onClick={() => handleQuantityChange(item.name, -1)}
+                          disabled={selectedQty === 0}
+                        >
+                          <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 12H4" />
+                          </svg>
+                        </button>
+                        <span className={`w-6 sm:w-8 text-center font-bold text-base sm:text-lg ${isSelected ? 'text-green-600' : 'text-black'}`}>
+                          {selectedQty}
+                        </span>
+                        <button 
+                          className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center rounded-full bg-gray-200 text-gray-700 hover:bg-gray-300 transition-colors disabled:opacity-50"
+                          onClick={() => handleQuantityChange(item.name, 1)}
+                          disabled={selectedQty >= remainingQty}
+                        >
+                          <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" />
+                          </svg>
+                        </button>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -128,7 +153,16 @@ export default function PayForItemsView({ items, onBack, onContinue }: PayForIte
             </div>
             <button 
               className="w-full py-3 px-4 sm:py-4 sm:px-6 bg-black text-white rounded-2xl font-medium text-sm sm:text-base transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
-              onClick={() => onContinue(totalSelected)}
+              onClick={() => {
+                const selectedItems = items
+                  .filter(item => selectedQuantities[item.name] > 0)
+                  .map(item => ({
+                    name: item.name,
+                    quantity: selectedQuantities[item.name],
+                    price: item.unitPrice
+                  }))
+                onContinue(totalSelected, selectedItems)
+              }}
             >
               Verder naar fooi
             </button>

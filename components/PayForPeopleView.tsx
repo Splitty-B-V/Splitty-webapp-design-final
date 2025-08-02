@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useBill } from '@/contexts/BillContext'
 
 interface PayForPeopleViewProps {
   totalPeople: number
@@ -17,13 +18,52 @@ export default function PayForPeopleView({
   onBack, 
   onContinue 
 }: PayForPeopleViewProps) {
+  const { payments, totalBill } = useBill()
   const [selectedPeople, setSelectedPeople] = useState(1)
+  
+  // Calculate how many people have already paid
+  const peoplePaidCount = payments
+    .filter(p => p.splitMode?.includes('Gelijk verdelen'))
+    .reduce((total, payment) => {
+      // Use peopleCount if available, otherwise default to 1
+      return total + (payment.peopleCount || 1)
+    }, 0)
+  
+  // Calculate how many people can still pay
+  const maxSelectablePeople = totalPeople - peoplePaidCount
   
   const totalToPay = selectedPeople * perPersonAmount
   const peoplePaid = selectedPeople
-  const peopleRemaining = totalPeople - peoplePaid
+  const peopleRemaining = totalPeople - peoplePaidCount - selectedPeople
   const amountRemaining = peopleRemaining * perPersonAmount
-  const progressPercentage = (peoplePaid / totalPeople) * 100
+  
+  // Calculate percentages for the progress bar
+  const alreadyPaidPercentage = (peoplePaidCount / totalPeople) * 100
+  const selectedPercentage = (selectedPeople / totalPeople) * 100
+  const totalPercentage = alreadyPaidPercentage + selectedPercentage
+
+  // If everyone has already paid, show a message
+  if (maxSelectablePeople === 0) {
+    return (
+      <div className="flex flex-col h-full items-center justify-center p-6">
+        <div className="text-center">
+          <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg className="w-12 h-12 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+            </svg>
+          </div>
+          <h3 className="text-xl font-bold text-gray-900 mb-2">Iedereen heeft al betaald!</h3>
+          <p className="text-gray-600 mb-6">Alle {totalPeople} personen hebben hun deel betaald.</p>
+          <button
+            onClick={onBack}
+            className="px-6 py-3 bg-black text-white rounded-xl font-medium"
+          >
+            Terug
+          </button>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="flex flex-col h-full" style={{ maxHeight: 'calc(85vh - 100px)' }}>
@@ -51,18 +91,33 @@ export default function PayForPeopleView({
         <div className="bg-gray-50 rounded-2xl p-4 sm:p-6">
           {/* Progress indicator */}
           <div className="mb-6 sm:mb-8">
-            <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+            <div className="h-2 bg-gray-200 rounded-full overflow-hidden relative">
+              {/* Already paid portion */}
               <div 
-                className="h-full bg-gradient-to-r from-green-500 to-green-400 transition-all duration-700 ease-out"
-                style={{ width: `${progressPercentage}%` }}
+                className="absolute h-full bg-gradient-to-r from-green-500 to-green-400 transition-all duration-700 ease-out"
+                style={{ width: `${alreadyPaidPercentage}%` }}
+              />
+              {/* Currently selected portion */}
+              <div 
+                className="absolute h-full bg-gradient-to-r from-gray-400 to-gray-500 transition-all duration-300 ease-out"
+                style={{ 
+                  left: `${alreadyPaidPercentage}%`,
+                  width: `${selectedPercentage}%` 
+                }}
               />
             </div>
             <div className="mt-2 sm:mt-3 flex justify-between items-center">
               <span className="text-xs sm:text-sm font-medium text-gray-700">
-                {selectedPeople} van {totalPeople} {totalPeople === 1 ? 'persoon' : 'personen'}
+                {peoplePaidCount > 0 && (
+                  <span className="text-green-600">{peoplePaidCount} betaald</span>
+                )}
+                {peoplePaidCount > 0 && selectedPeople > 0 && ' + '}
+                {selectedPeople > 0 && (
+                  <span className="text-gray-600">{selectedPeople} geselecteerd</span>
+                )}
               </span>
               <span className="text-xs sm:text-sm font-bold text-green-600">
-                {Math.round(progressPercentage)}%
+                {Math.round(totalPercentage)}%
               </span>
             </div>
           </div>
@@ -85,8 +140,8 @@ export default function PayForPeopleView({
             
             <button 
               className="w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center rounded-full bg-white shadow-md hover:shadow-lg transition-all duration-200 disabled:opacity-50 disabled:shadow-sm"
-              onClick={() => setSelectedPeople(Math.min(totalPeople, selectedPeople + 1))}
-              disabled={selectedPeople >= totalPeople}
+              onClick={() => setSelectedPeople(Math.min(maxSelectablePeople, selectedPeople + 1))}
+              disabled={selectedPeople >= maxSelectablePeople}
             >
               <svg className="w-5 h-5 sm:w-6 sm:h-6 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" />

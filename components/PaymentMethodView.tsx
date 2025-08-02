@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
+import { useBill } from '@/contexts/BillContext'
 
 interface PaymentMethodViewProps {
   totalAmount: number
@@ -10,6 +11,8 @@ interface PaymentMethodViewProps {
   serviceFee: number
   tipAmount: number
   splitMode?: string
+  selectedItems?: { name: string; quantity: number; price: number }[]
+  peopleCount?: number
   onBack: () => void
   onPay: () => void
 }
@@ -20,10 +23,13 @@ export default function PaymentMethodView({
   serviceFee,
   tipAmount,
   splitMode = 'Onbekend',
+  selectedItems,
+  peopleCount,
   onBack, 
   onPay 
 }: PaymentMethodViewProps) {
   const router = useRouter()
+  const { addPayment, remainingAmount } = useBill()
   const [selectedMethod, setSelectedMethod] = useState<'ideal' | 'apple' | 'card'>('ideal')
   const [timeRemaining, setTimeRemaining] = useState(300) // 5 minutes in seconds
   
@@ -278,71 +284,41 @@ export default function PaymentMethodView({
           className="w-full py-3 px-4 sm:py-4 sm:px-6 bg-black text-white rounded-2xl font-medium text-sm sm:text-base transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] relative overflow-hidden group"
           onClick={async () => {
             try {
-              // For static site, always simulate payment
-              const simulatePayment = true
+              // Cap the payment amount at the remaining bill amount
+              const actualPaymentAmount = Math.min(subtotal, remainingAmount)
               
-              if (simulatePayment) {
-                // Create a mock payment ID
-                const mockPaymentId = `payment_${Date.now()}`
-                
-                // Create payment data URL params
-                const params = new URLSearchParams({
-                  paymentId: mockPaymentId,
-                  amount: subtotal.toString(),
-                  serviceFee: serviceFee.toString(),
-                  tip: tipAmount.toString(),
-                  total: totalAmount.toString(),
-                  splitMode: splitMode
-                })
-                
-                // Redirect to thank you page with payment details
-                router.push(`/thank-you?${params.toString()}`)
-              } else {
-                // Original API call code (kept for reference)
-                const response = await fetch('/api/payment', {
-                  method: 'POST',
-                  headers: {
-                    'Content-Type': 'application/json',
-                  },
-                  body: JSON.stringify({
-                    billId: 'cmdt9fe9u0002ywzm2dju8jkg',
-                    amount: subtotal + serviceFee,
-                    tipAmount: tipAmount,
-                    method: selectedMethod,
-                    customerEmail: 'test@example.com'
-                  }),
-                })
-
-                const data = await response.json()
-                
-                if (data.success) {
-                  const params = new URLSearchParams({
-                    paymentId: data.paymentId,
-                    amount: subtotal.toString(),
-                    serviceFee: serviceFee.toString(),
-                    tip: tipAmount.toString(),
-                    total: totalAmount.toString(),
-                    splitMode: splitMode
-                  })
-                  
-                  router.push(`/thank-you?${params.toString()}`)
-                } else {
-                  alert('Payment failed. Please try again.')
-                }
+              if (actualPaymentAmount <= 0) {
+                alert('De rekening is al volledig betaald!')
+                router.push('/')
+                return
               }
-            } catch (error) {
-              console.error('Payment error:', error)
-              // For demo, still redirect to thank you page
-              const mockPaymentId = `payment_${Date.now()}`
+              
+              // Add payment to context
+              addPayment({
+                amount: actualPaymentAmount,
+                tipAmount: tipAmount,
+                serviceFee: serviceFee,
+                total: actualPaymentAmount + serviceFee + tipAmount,
+                splitMode: splitMode,
+                items: selectedItems,
+                peopleCount: peopleCount
+              })
+              
+              // Create payment data URL params
               const params = new URLSearchParams({
-                paymentId: mockPaymentId,
-                amount: subtotal.toString(),
+                paymentId: `payment_${Date.now()}`,
+                amount: actualPaymentAmount.toString(),
                 serviceFee: serviceFee.toString(),
                 tip: tipAmount.toString(),
-                total: totalAmount.toString(),
+                total: (actualPaymentAmount + serviceFee + tipAmount).toString(),
                 splitMode: splitMode
               })
-              router.push(`/thank-you?${params.toString()}`)
+              
+              // Redirect to thank you page with payment details
+              router.push(`/thank-you/?${params.toString()}`)
+            } catch (error) {
+              console.error('Payment error:', error)
+              alert('Er is iets misgegaan. Probeer het opnieuw.')
             }
           }}
         >
