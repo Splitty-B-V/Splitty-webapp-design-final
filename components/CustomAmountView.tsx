@@ -79,7 +79,7 @@ export default function CustomAmountView({ total, onBack, onContinue }: CustomAm
     { label: '€10', amount: 10 },
     { label: '€25', amount: 25 },
     { label: '€50', amount: 50 },
-    { label: '€100', amount: 100 }
+    { label: `€${remaining.toFixed(2).replace('.', ',')}`, amount: remaining }
   ]
 
   const setPresetAmount = (amount: number) => {
