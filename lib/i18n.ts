@@ -1,9 +1,11 @@
 import nlTranslations from '../public/locales/nl/common.json'
 import enTranslations from '../public/locales/en/common.json'
+import deTranslations from '../public/locales/de/common.json'
 
 const translations = {
   nl: nlTranslations,
-  en: enTranslations
+  en: enTranslations,
+  de: deTranslations
 }
 
 export function getTranslations(locale: string = 'nl') {
