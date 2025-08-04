@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useBill } from '@/contexts/BillContext'
+import { useLanguage } from '@/contexts/LanguageContext'
 
 interface PaymentMethodViewProps {
   totalAmount: number
@@ -30,6 +31,7 @@ export default function PaymentMethodView({
 }: PaymentMethodViewProps) {
   const router = useRouter()
   const { addPayment, remainingAmount } = useBill()
+  const { t } = useLanguage()
   const [selectedMethod, setSelectedMethod] = useState<'ideal' | 'apple' | 'card'>('ideal')
   const [timeRemaining, setTimeRemaining] = useState(300) // 5 minutes in seconds
   
@@ -59,7 +61,7 @@ export default function PaymentMethodView({
     { 
       id: 'ideal', 
       name: 'iDEAL', 
-      description: 'Betaal direct vanuit je Nederlandse bankrekening',
+      description: t('idealDescription') || 'Betaal direct vanuit je Nederlandse bankrekening',
       icon: '/images/ideal.png', 
       isImage: true,
       bgColor: 'bg-orange-50',
@@ -68,7 +70,7 @@ export default function PaymentMethodView({
     { 
       id: 'apple', 
       name: 'Apple Pay', 
-      description: 'Betaal snel en veilig met Apple Pay',
+      description: t('applePayDescription') || 'Betaal snel en veilig met Apple Pay',
       icon: null, 
       isImage: false,
       bgColor: 'bg-gray-100',
@@ -77,7 +79,7 @@ export default function PaymentMethodView({
     { 
       id: 'card', 
       name: 'Creditcard', 
-      description: 'Betaal met je creditcard of debitcard',
+      description: t('cardDescription') || 'Betaal met je creditcard of debitcard',
       icon: null, 
       isImage: false,
       bgColor: 'bg-blue-50',
@@ -98,7 +100,7 @@ export default function PaymentMethodView({
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
             </svg>
           </button>
-          <h2 className="text-lg sm:text-xl font-bold text-black">Afrekenen</h2>
+          <h2 className="text-lg sm:text-xl font-bold text-black">{t('checkout') || t('pay')}</h2>
           <div className="w-10"></div>
         </div>
       </div>
@@ -110,7 +112,7 @@ export default function PaymentMethodView({
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-1.5 sm:gap-2">
               <span className="text-xl sm:text-2xl">⏱️</span>
-              <span className="font-medium text-gray-700 text-sm sm:text-base">Tijd om af te ronden</span>
+              <span className="font-medium text-gray-700 text-sm sm:text-base">{t('timeToComplete') || 'Tijd om af te ronden'}</span>
             </div>
             <span className="text-xl sm:text-2xl font-bold text-orange-600">{formatTime(timeRemaining)}</span>
           </div>
@@ -124,21 +126,21 @@ export default function PaymentMethodView({
 
         {/* Payment summary */}
         <div className="bg-gray-50 rounded-xl sm:rounded-2xl p-4 sm:p-6 mb-4 sm:mb-6">
-          <h3 className="font-semibold text-gray-900 mb-3 sm:mb-4 text-sm sm:text-base">Overzicht</h3>
+          <h3 className="font-semibold text-gray-900 mb-3 sm:mb-4 text-sm sm:text-base">{t('overview') || 'Overzicht'}</h3>
           <div className="space-y-2 sm:space-y-3">
             <div className="flex justify-between items-center">
-              <span className="text-gray-600 text-xs sm:text-sm">Subtotaal</span>
+              <span className="text-gray-600 text-xs sm:text-sm">{t('subtotal') || 'Subtotaal'}</span>
               <span className="font-medium text-gray-900 text-sm sm:text-base">€{subtotal.toFixed(2).replace('.', ',')}</span>
             </div>
             <div className="flex justify-between items-center">
               <div className="flex items-center gap-1.5 sm:gap-2">
-                <span className="text-gray-600 text-xs sm:text-sm">Servicekosten</span>
+                <span className="text-gray-600 text-xs sm:text-sm">{t('serviceFee')}</span>
                 <div className="group relative">
                   <svg className="w-4 h-4 text-gray-400 cursor-help" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                   <div className="absolute bottom-full right-0 mb-2 px-2 py-1.5 sm:px-3 sm:py-2 bg-gray-900 text-white text-[10px] sm:text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
-                    App servicekosten
+                    {t('appServiceFee') || 'App servicekosten'}
                   </div>
                 </div>
               </div>
@@ -147,7 +149,7 @@ export default function PaymentMethodView({
             {tipAmount > 0 && (
               <div className="flex justify-between items-center">
                 <div className="flex items-center gap-1.5 sm:gap-2">
-                  <span className="text-gray-600 text-xs sm:text-sm">Fooi</span>
+                  <span className="text-gray-600 text-xs sm:text-sm">{t('tip')}</span>
                   <span className="text-lg sm:text-xl">💝</span>
                 </div>
                 <span className="font-medium text-green-600 text-sm sm:text-base">€{tipAmount.toFixed(2).replace('.', ',')}</span>
@@ -155,7 +157,7 @@ export default function PaymentMethodView({
             )}
             <div className="pt-2 mt-2 sm:pt-3 sm:mt-3 border-t border-gray-200">
               <div className="flex justify-between items-center">
-                <span className="font-semibold text-gray-900 text-sm sm:text-base">Totaal</span>
+                <span className="font-semibold text-gray-900 text-sm sm:text-base">{t('total')}</span>
                 <span className="text-xl sm:text-2xl font-bold text-black">€{totalAmount.toFixed(2).replace('.', ',')}</span>
               </div>
             </div>
@@ -164,7 +166,7 @@ export default function PaymentMethodView({
 
         {/* Payment methods */}
         <div className="mb-4">
-          <h3 className="font-semibold text-gray-900 mb-2 sm:mb-3 text-sm sm:text-base">Betaalmethode</h3>
+          <h3 className="font-semibold text-gray-900 mb-2 sm:mb-3 text-sm sm:text-base">{t('paymentMethod')}</h3>
           <div className="space-y-2 sm:space-y-3">
             {/* iDEAL */}
             <button
@@ -288,7 +290,7 @@ export default function PaymentMethodView({
               const actualPaymentAmount = Math.min(subtotal, remainingAmount)
               
               if (actualPaymentAmount <= 0) {
-                alert('De rekening is al volledig betaald!')
+                alert(t('billAlreadyPaid') || 'De rekening is al volledig betaald!')
                 router.push('/')
                 return
               }
@@ -318,7 +320,7 @@ export default function PaymentMethodView({
               router.push(`/thank-you/?${params.toString()}`)
             } catch (error) {
               console.error('Payment error:', error)
-              alert('Er is iets misgegaan. Probeer het opnieuw.')
+              alert(t('somethingWentWrong') || 'Er is iets misgegaan. Probeer het opnieuw.')
             }
           }}
         >
@@ -327,7 +329,7 @@ export default function PaymentMethodView({
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
             </svg>
-            Betaal met {selectedMethod === 'ideal' ? 'iDEAL' : selectedMethod === 'apple' ? 'Apple Pay' : 'Creditcard'}
+            {t('payWith')} {selectedMethod === 'ideal' ? 'iDEAL' : selectedMethod === 'apple' ? 'Apple Pay' : t('creditCard') || 'Creditcard'}
           </span>
         </button>
       </div>

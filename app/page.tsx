@@ -6,10 +6,13 @@ import ActionButtons from '@/components/ActionButtons'
 import BTWSummary from '@/components/BTWSummary'
 import { processOrderItems, calculateTotalBTW } from '@/lib/btw-calculator'
 import { useBill } from '@/contexts/BillContext'
+import { useLanguage } from '@/contexts/LanguageContext'
 import BillFullyPaidView from '@/components/BillFullyPaidView'
+import LanguageToggle from '@/components/LanguageToggle'
 
 export default function BillPage() {
   const { orderItems, totalBill, paidAmount, remainingAmount, isFullyPaid, activeSplitMode, resetBill } = useBill()
+  const { t } = useLanguage()
   
   const subtotal = totalBill
   const total = subtotal
@@ -35,6 +38,10 @@ export default function BillPage() {
             backgroundImage: 'url("https://firebasestorage.googleapis.com/v0/b/sunday-dem.appspot.com/o/dbdebaf6-974f-4632-b60d-8edcd8017f04%2Fcover%2Fcover_800x452.jpeg?alt=media&token=e818cc4e-ab9c-41b4-88da-c92879caff1b")' 
           }}
         >
+          {/* Language Toggle */}
+          <div className="absolute top-4 right-4 z-10">
+            <LanguageToggle />
+          </div>
           <div 
             className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 w-28 h-28 rounded-full bg-white bg-center bg-no-repeat bg-contain shadow-lg"
             style={{ 
@@ -56,7 +63,12 @@ export default function BillPage() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                 </svg>
                 <p className="text-sm sm:text-base text-green-800 font-medium">
-                  Split mode: <span className="font-bold">{activeSplitMode}</span>
+                  {t('splitMode')}: <span className="font-bold">{
+                    activeSplitMode === 'Betaal voor je items' ? t('payForItems') :
+                    activeSplitMode === 'Gelijk verdelen' ? t('splitEqually') :
+                    activeSplitMode === 'Aangepast bedrag' ? t('customAmount') :
+                    activeSplitMode
+                  }</span>
                 </p>
               </div>
             </div>
@@ -66,8 +78,8 @@ export default function BillPage() {
           <div className="bg-white border-b border-gray-200 px-4 pt-5 pb-4 sm:px-6 sm:pt-6 sm:pb-5">
             <div className="flex justify-between items-center mb-4 sm:mb-5">
               <div>
-                <h1 className="text-gray-600 text-xs sm:text-sm font-normal mb-0.5">Tafel 1</h1>
-                <p className="text-black text-lg sm:text-xl font-semibold">Nog openstaande bedrag</p>
+                <h1 className="text-gray-600 text-xs sm:text-sm font-normal mb-0.5">{t('table')} 1</h1>
+                <p className="text-black text-lg sm:text-xl font-semibold">{t('outstandingAmount')}</p>
               </div>
               <div className="text-right">
                 <p className="text-black text-xl sm:text-2xl font-semibold">€{remainingAmount.toFixed(2).replace('.', ',')}</p>
@@ -94,7 +106,7 @@ export default function BillPage() {
             {/* Order Summary */}
             <div className="px-4 py-4 sm:px-6 sm:py-6">
               {/* Section Title */}
-              <h2 className="text-black font-semibold text-base sm:text-lg mb-3 sm:mb-4">Bestelling</h2>
+              <h2 className="text-black font-semibold text-base sm:text-lg mb-3 sm:mb-4">{t('order')}</h2>
               
               {/* Order items */}
               <div className="space-y-1.5 sm:space-y-2">
@@ -106,7 +118,7 @@ export default function BillPage() {
                       </div>
                       <div>
                         <p className="text-black font-medium text-sm sm:text-base">{item.name}</p>
-                        <p className="text-gray-500 text-xs sm:text-sm">€{item.unitPrice.toFixed(2).replace('.', ',')} per stuk</p>
+                        <p className="text-gray-500 text-xs sm:text-sm">€{item.unitPrice.toFixed(2).replace('.', ',')} {t('perUnit')}</p>
                       </div>
                     </div>
                     <span className="text-black font-semibold text-sm sm:text-base">€{item.totalPrice.toFixed(2).replace('.', ',')}</span>
@@ -120,7 +132,7 @@ export default function BillPage() {
               {/* Total Section */}
               <div className="space-y-2 sm:space-y-3">
                 <div className="flex justify-between items-center">
-                  <p className="text-base sm:text-lg font-semibold text-black">Totaalbedrag</p>
+                  <p className="text-base sm:text-lg font-semibold text-black">{t('totalAmount')}</p>
                   <p className="text-xl sm:text-2xl font-bold text-black">€{total.toFixed(2).replace('.', ',')}</p>
                 </div>
               </div>
@@ -146,24 +158,24 @@ export default function BillPage() {
                   />
                   
                   <p className="text-xs sm:text-sm font-medium text-gray-700">
-                    Betalen met een glimlach 😊
+                    {t('payWithSmile')} 😊
                   </p>
                 </div>
                 
                 {/* Links section */}
                 <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-0.5 text-[10px] sm:gap-x-3 sm:gap-y-1 sm:text-xs">
-                  <span className="text-gray-500">Powered by Splitty</span>
+                  <span className="text-gray-500">{t('poweredBy')}</span>
                   <span className="text-gray-400">•</span>
                   <a href="https://www.splitty.nl/algemene-voorwaarden" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-gray-800 transition-colors">
-                    Voorwaarden
+                    {t('terms')}
                   </a>
                   <span className="text-gray-400">•</span>
                   <a href="https://www.splitty.nl/privacy-policy" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-gray-800 transition-colors">
-                    Privacy
+                    {t('privacy')}
                   </a>
                   <span className="text-gray-400">•</span>
                   <a href="https://www.splitty.nl/contact" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-gray-800 transition-colors">
-                    Contact
+                    {t('contact')}
                   </a>
                 </div>
               </div>

@@ -8,6 +8,7 @@ import CustomAmountView from './CustomAmountView'
 import TipView from './TipView'
 import PaymentMethodView from './PaymentMethodView'
 import { useBill } from '@/contexts/BillContext'
+import { useLanguage } from '@/contexts/LanguageContext'
 
 interface OrderItem {
   name: string
@@ -24,6 +25,7 @@ interface SplitBillModalProps {
 
 export default function SplitBillModal({ isOpen, onClose, orderItems }: SplitBillModalProps) {
   const { activeSplitMode, totalPeopleForSplit, remainingAmount, totalBill, payments } = useBill()
+  const { t } = useLanguage()
   const [currentView, setCurrentView] = useState<'options' | 'pay-items' | 'split-equally' | 'pay-for-people' | 'custom-amount' | 'tip' | 'payment'>('options')
   const [previousView, setPreviousView] = useState<'pay-items' | 'pay-for-people' | 'custom-amount'>('pay-items')
   const [selectedAmount, setSelectedAmount] = useState(0)
@@ -76,18 +78,18 @@ export default function SplitBillModal({ isOpen, onClose, orderItems }: SplitBil
   const paymentOptions = [
     {
       icon: '🛒',
-      title: 'Betaal voor je items',
-      description: 'Selecteer en betaal voor specifieke items',
+      title: t('payForItems'),
+      description: t('selectPayForItems'),
     },
     {
       icon: '➗',
-      title: 'Gelijk verdelen',
-      description: 'Deel de rekening gelijk over het aantal personen',
+      title: t('splitEqually'),
+      description: t('splitEquallyDesc'),
     },
     {
       icon: '💰',
-      title: 'Aangepast bedrag',
-      description: 'Betaal een specifiek bedrag',
+      title: t('customAmount'),
+      description: t('customAmountDesc'),
     },
   ]
 
@@ -109,9 +111,9 @@ export default function SplitBillModal({ isOpen, onClose, orderItems }: SplitBil
         <div className="max-w-[500px] mx-auto bg-white rounded-t-[20px] max-h-[95vh] overflow-hidden animate-slide-up flex flex-col"
           style={{ touchAction: 'pan-y', overscrollBehavior: 'contain', scrollBehavior: 'smooth' }}
         >
-        <h2 id="split-bill-title" className="sr-only">Rekening delen</h2>
+        <h2 id="split-bill-title" className="sr-only">{t('splitBill')}</h2>
         <p id="split-bill-description" className="sr-only">
-          Kies een methode om de rekening te delen: betaal voor specifieke items, deel het bedrag gelijk, of kies een aangepast bedrag.
+          {t('howToSplit')}
         </p>
         
         {/* Header */}
@@ -137,8 +139,8 @@ export default function SplitBillModal({ isOpen, onClose, orderItems }: SplitBil
           <div className="h-full">
             {currentView === 'options' ? (
               <div className="py-6">
-                <h2 className="text-2xl font-bold mb-2 text-black text-center">Rekening delen</h2>
-                <p className="text-sm text-gray-600 mb-8 text-center">Kies hoe je wilt betalen</p>
+                <h2 className="text-2xl font-bold mb-2 text-black text-center">{t('splitBill')}</h2>
+                <p className="text-sm text-gray-600 mb-8 text-center">{t('howToSplit')}</p>
                 
                 {activeSplitMode && (
                   <div className="mx-6 mb-6 bg-blue-50 border border-blue-200 rounded-xl p-4">
@@ -148,10 +150,10 @@ export default function SplitBillModal({ isOpen, onClose, orderItems }: SplitBil
                       </svg>
                       <div>
                         <p className="text-sm font-medium text-blue-900">
-                          Betalingsmodus: <span className="font-bold">{activeSplitMode}</span>
+                          {t('paymentMode')}: <span className="font-bold">{activeSplitMode}</span>
                         </p>
                         <p className="text-xs text-blue-700 mt-1">
-                          Alle volgende betalingen worden in deze modus verwerkt.
+                          {t('allPaymentsProcessed')}
                         </p>
                       </div>
                     </div>

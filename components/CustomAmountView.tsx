@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useBill } from '@/contexts/BillContext'
+import { useLanguage } from '@/contexts/LanguageContext'
 
 interface CustomAmountViewProps {
   total: number
@@ -11,6 +12,7 @@ interface CustomAmountViewProps {
 
 export default function CustomAmountView({ total, onBack, onContinue }: CustomAmountViewProps) {
   const { paidAmount, remainingAmount } = useBill()
+  const { t } = useLanguage()
   const alreadyPaid = paidAmount
   const remaining = remainingAmount
   
@@ -106,11 +108,11 @@ export default function CustomAmountView({ total, onBack, onContinue }: CustomAm
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
             </svg>
           </button>
-          <h2 className="text-lg sm:text-xl font-bold text-black">Aangepast bedrag</h2>
+          <h2 className="text-lg sm:text-xl font-bold text-black">{t('customAmount')}</h2>
           <div className="w-10"></div>
         </div>
         <p className="text-xs sm:text-sm text-gray-600 text-center">
-          Kies het bedrag dat je wilt betalen
+          {t('enterAmount')}
         </p>
       </div>
 
@@ -123,17 +125,17 @@ export default function CustomAmountView({ total, onBack, onContinue }: CustomAm
             <div className="text-center">
               <div className="inline-flex items-center gap-2 bg-white/70 backdrop-blur-sm px-2 py-0.5 sm:px-3 sm:py-1 rounded-full mb-2 sm:mb-3">
                 <div className="w-2 h-2 bg-orange-400 rounded-full animate-pulse"></div>
-                <p className="text-[10px] sm:text-xs font-semibold text-orange-700 uppercase tracking-wide">Nog te betalen</p>
+                <p className="text-[10px] sm:text-xs font-semibold text-orange-700 uppercase tracking-wide">{t('outstandingAmount')}</p>
               </div>
               <p className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">€{remaining.toFixed(2).replace('.', ',')}</p>
               <div className="flex items-center justify-center gap-3 sm:gap-4 text-[10px] sm:text-xs">
                 <div className="flex items-center gap-1">
-                  <span className="text-gray-500">Totaal</span>
+                  <span className="text-gray-500">{t('total')}</span>
                   <span className="font-medium text-gray-700">€{total.toFixed(2).replace('.', ',')}</span>
                 </div>
                 <div className="w-px h-3 bg-gray-300"></div>
                 <div className="flex items-center gap-1">
-                  <span className="text-gray-500">Betaald</span>
+                  <span className="text-gray-500">{t('paidAmount')}</span>
                   <span className="font-medium text-green-600">€{alreadyPaid.toFixed(2).replace('.', ',')}</span>
                 </div>
               </div>
@@ -172,7 +174,7 @@ export default function CustomAmountView({ total, onBack, onContinue }: CustomAm
               </div>
             </div>
             <p className="text-xs sm:text-sm text-gray-500">
-              Voer het gewenste bedrag in (max €{remaining.toFixed(2).replace('.', ',')})
+              {t('enterAmount')} (max €{remaining.toFixed(2).replace('.', ',')})
             </p>
           </div>
 
@@ -196,7 +198,7 @@ export default function CustomAmountView({ total, onBack, onContinue }: CustomAm
       <div className="flex-shrink-0 bg-gray-50 border-t border-gray-200 p-3 sm:p-4">
         {enteredAmount > 0 && (
           <div className="flex items-center justify-between mb-3 sm:mb-4">
-            <span className="text-xs sm:text-sm text-gray-600">Je betaalt</span>
+            <span className="text-xs sm:text-sm text-gray-600">{t('youPay')}</span>
             <span className="text-lg sm:text-xl font-bold text-black">€{enteredAmount.toFixed(2).replace('.', ',')}</span>
           </div>
         )}
@@ -209,7 +211,7 @@ export default function CustomAmountView({ total, onBack, onContinue }: CustomAm
           }`}
           onClick={() => isValidAmount && onContinue(enteredAmount)}
         >
-          {!enteredAmount ? 'Voer een bedrag in' : 'Verder naar fooi'}
+          {!enteredAmount ? t('enterAmount') : t('continueToTip')}
         </button>
       </div>
     </div>

@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useBill } from '@/contexts/BillContext'
+import { useLanguage } from '@/contexts/LanguageContext'
 
 interface PayForPeopleViewProps {
   totalPeople: number
@@ -19,6 +20,7 @@ export default function PayForPeopleView({
   onContinue 
 }: PayForPeopleViewProps) {
   const { payments, totalBill } = useBill()
+  const { t } = useLanguage()
   const [selectedPeople, setSelectedPeople] = useState(1)
   
   // Calculate how many people have already paid
@@ -52,13 +54,13 @@ export default function PayForPeopleView({
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
             </svg>
           </div>
-          <h3 className="text-xl font-bold text-gray-900 mb-2">Iedereen heeft al betaald!</h3>
-          <p className="text-gray-600 mb-6">Alle {totalPeople} personen hebben hun deel betaald.</p>
+          <h3 className="text-xl font-bold text-gray-900 mb-2">{t('everyonePaid') || 'Iedereen heeft al betaald!'}</h3>
+          <p className="text-gray-600 mb-6">{t('allPeoplePaid').replace('{total}', totalPeople.toString()) || `Alle ${totalPeople} personen hebben hun deel betaald.`}</p>
           <button
             onClick={onBack}
             className="px-6 py-3 bg-black text-white rounded-xl font-medium"
           >
-            Terug
+            {t('back')}
           </button>
         </div>
       </div>
@@ -78,11 +80,11 @@ export default function PayForPeopleView({
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
             </svg>
           </button>
-          <h2 className="text-lg sm:text-xl font-bold text-black">Betaal voor personen</h2>
+          <h2 className="text-lg sm:text-xl font-bold text-black">{t('payForPeople')}</h2>
           <div className="w-10"></div>
         </div>
         <p className="text-xs sm:text-sm text-gray-600 text-center">
-          Kies voor hoeveel personen je wilt betalen
+          {t('forHowManyPeople')}
         </p>
       </div>
 
@@ -109,11 +111,11 @@ export default function PayForPeopleView({
             <div className="mt-2 sm:mt-3 flex justify-between items-center">
               <span className="text-xs sm:text-sm font-medium text-gray-700">
                 {peoplePaidCount > 0 && (
-                  <span className="text-green-600">{peoplePaidCount} betaald</span>
+                  <span className="text-green-600">{peoplePaidCount} {t('paid') || 'betaald'}</span>
                 )}
                 {peoplePaidCount > 0 && selectedPeople > 0 && ' + '}
                 {selectedPeople > 0 && (
-                  <span className="text-gray-600">{selectedPeople} geselecteerd</span>
+                  <span className="text-gray-600">{selectedPeople} {t('selected')}</span>
                 )}
               </span>
               <span className="text-xs sm:text-sm font-bold text-green-600">
@@ -154,11 +156,11 @@ export default function PayForPeopleView({
             {/* Summary cards */}
             <div className="grid grid-cols-2 gap-2 sm:gap-3">
               <div className="bg-white rounded-xl p-3 sm:p-4">
-                <p className="text-[10px] sm:text-xs text-gray-600 mb-0.5 sm:mb-1">Per persoon</p>
+                <p className="text-[10px] sm:text-xs text-gray-600 mb-0.5 sm:mb-1">{t('perPerson')}</p>
                 <p className="text-base sm:text-lg font-semibold text-black">€{perPersonAmount.toFixed(2).replace('.', ',')}</p>
               </div>
               <div className="bg-white rounded-xl p-3 sm:p-4">
-                <p className="text-[10px] sm:text-xs text-gray-600 mb-0.5 sm:mb-1">Totaal</p>
+                <p className="text-[10px] sm:text-xs text-gray-600 mb-0.5 sm:mb-1">{t('total')}</p>
                 <p className="text-base sm:text-lg font-semibold text-black">€{total.toFixed(2).replace('.', ',')}</p>
               </div>
             </div>
@@ -166,7 +168,7 @@ export default function PayForPeopleView({
             {/* Your payment */}
             <div className="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-xl sm:rounded-2xl p-4 sm:p-6">
               <p className="text-center text-gray-600 text-xs sm:text-sm mb-1 sm:mb-2">
-                Jij betaalt voor {selectedPeople} {selectedPeople === 1 ? 'persoon' : 'personen'}
+                {t('youPayFor').replace('{count}', selectedPeople.toString()) || `Jij betaalt voor ${selectedPeople}`} {selectedPeople === 1 ? t('person') : t('people')}
               </p>
               <p className="text-center text-2xl sm:text-3xl font-bold text-green-700">
                 €{totalToPay.toFixed(2).replace('.', ',')}
@@ -179,10 +181,10 @@ export default function PayForPeopleView({
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-xs sm:text-sm font-medium text-gray-700">
-                      Nog te betalen
+                      {t('stillToPay') || 'Nog te betalen'}
                     </p>
                     <p className="text-[10px] sm:text-xs text-gray-600 mt-0.5">
-                      {peopleRemaining} {peopleRemaining === 1 ? 'persoon' : 'personen'}
+                      {peopleRemaining} {peopleRemaining === 1 ? t('person') : t('people')}
                     </p>
                   </div>
                   <p className="text-base sm:text-lg font-semibold text-gray-800">
@@ -201,7 +203,7 @@ export default function PayForPeopleView({
           className="w-full py-3 px-4 sm:py-4 sm:px-6 bg-black text-white rounded-2xl font-medium text-sm sm:text-base transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
           onClick={() => onContinue(selectedPeople, totalToPay)}
         >
-          Verder naar fooi
+          {t('continueToTip')}
         </button>
       </div>
     </div>

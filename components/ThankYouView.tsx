@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import { useLanguage } from '@/contexts/LanguageContext'
 
 interface ThankYouViewProps {
   restaurantId: string
@@ -17,6 +18,7 @@ interface ThankYouViewProps {
 
 export default function ThankYouView({ restaurantId, tableId, paymentData: propPaymentData }: ThankYouViewProps) {
   const router = useRouter()
+  const { t } = useLanguage()
   const [rating, setRating] = useState(0)
   const [hoveredRating, setHoveredRating] = useState(0)
   const [review, setReview] = useState('')
@@ -55,42 +57,42 @@ export default function ThankYouView({ restaurantId, tableId, paymentData: propP
               <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
             </svg>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-1 sm:mb-2">Betaling geslaagd</h1>
-          <p className="text-gray-600 text-sm sm:text-base">Bedankt voor je betaling</p>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-1 sm:mb-2">{t('paymentSuccessful')}</h1>
+          <p className="text-gray-600 text-sm sm:text-base">{t('thankYouForPayment') || t('yourPaymentProcessed')}</p>
         </div>
 
         {/* Payment summary */}
         <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-gray-200 mb-4 sm:mb-6">
           <div className="flex items-center justify-between mb-3 sm:mb-4">
-            <h2 className="font-semibold text-gray-900 text-sm sm:text-base">Betalingsoverzicht</h2>
+            <h2 className="font-semibold text-gray-900 text-sm sm:text-base">{t('paymentOverview')}</h2>
             <span className="text-xs sm:text-sm text-gray-500">{paymentDataWithTime.time}</span>
           </div>
           
           <div className="space-y-2 sm:space-y-3">
             <div className="flex justify-between items-center">
-              <span className="text-gray-600 text-xs sm:text-sm">Bedrag</span>
+              <span className="text-gray-600 text-xs sm:text-sm">{t('amount') || t('paidAmount')}</span>
               <span className="font-medium text-gray-900 text-sm sm:text-base">€{paymentDataWithTime.amount.toFixed(2).replace('.', ',')}</span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-gray-600 text-xs sm:text-sm">Servicekosten</span>
+              <span className="text-gray-600 text-xs sm:text-sm">{t('serviceFee')}</span>
               <span className="font-medium text-gray-900 text-sm sm:text-base">€{paymentDataWithTime.serviceFee.toFixed(2).replace('.', ',')}</span>
             </div>
             {paymentDataWithTime.tip > 0 && (
               <div className="flex justify-between items-center">
-                <span className="text-gray-600 text-xs sm:text-sm">Fooi</span>
+                <span className="text-gray-600 text-xs sm:text-sm">{t('tip')}</span>
                 <span className="font-medium text-gray-900 text-sm sm:text-base">€{paymentDataWithTime.tip.toFixed(2).replace('.', ',')}</span>
               </div>
             )}
             <div className="h-px bg-gray-300 my-1.5 sm:my-2"></div>
             <div className="flex justify-between items-center">
-              <span className="font-semibold text-gray-900 text-sm sm:text-base">Totaal betaald</span>
+              <span className="font-semibold text-gray-900 text-sm sm:text-base">{t('totalPaid')}</span>
               <span className="text-lg sm:text-xl font-bold text-gray-900">€{paymentDataWithTime.total.toFixed(2).replace('.', ',')}</span>
             </div>
           </div>
           
           <div className="mt-3 pt-3 sm:mt-4 sm:pt-4 border-t border-gray-200">
             <div className="flex items-center justify-between">
-              <span className="text-xs sm:text-sm text-gray-600">Betaalwijze</span>
+              <span className="text-xs sm:text-sm text-gray-600">{t('paymentMethod')}</span>
               <div className="flex items-center gap-1.5 sm:gap-2">
                 <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
@@ -103,8 +105,8 @@ export default function ThankYouView({ restaurantId, tableId, paymentData: propP
 
         {/* Invoice email section */}
         <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-sm border border-gray-200">
-          <h2 className="font-semibold text-gray-900 text-base sm:text-lg mb-1.5 sm:mb-2">Ontvang je factuur</h2>
-          <p className="text-xs sm:text-sm text-gray-600 mb-3 sm:mb-4">We sturen je factuur direct naar je e-mail</p>
+          <h2 className="font-semibold text-gray-900 text-base sm:text-lg mb-1.5 sm:mb-2">{t('receiveInvoice') || 'Ontvang je factuur'}</h2>
+          <p className="text-xs sm:text-sm text-gray-600 mb-3 sm:mb-4">{t('sendInvoiceToEmail') || 'We sturen je factuur direct naar je e-mail'}</p>
           
           {!emailSent ? (
             <div className="space-y-3">
@@ -132,7 +134,7 @@ export default function ThankYouView({ restaurantId, tableId, paymentData: propP
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-4 h-4 sm:w-5 sm:h-5">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
                 </svg>
-                <span>Stuur factuur</span>
+                <span>{t('sendInvoice') || 'Stuur factuur'}</span>
               </button>
             </div>
           ) : (
@@ -143,8 +145,8 @@ export default function ThankYouView({ restaurantId, tableId, paymentData: propP
                 </svg>
               </div>
               <div>
-                <p className="font-medium text-gray-900 text-sm sm:text-base">Factuur verstuurd!</p>
-                <p className="text-xs sm:text-sm text-gray-600">Check je inbox op {email}</p>
+                <p className="font-medium text-gray-900 text-sm sm:text-base">{t('invoiceSent') || 'Factuur verstuurd!'}</p>
+                <p className="text-xs sm:text-sm text-gray-600">{t('checkInbox') || 'Check je inbox op'} {email}</p>
               </div>
             </div>
           )}
@@ -162,14 +164,14 @@ export default function ThankYouView({ restaurantId, tableId, paymentData: propP
               </svg>
             </div>
             <div>
-              <h2 className="font-bold text-gray-900 text-base sm:text-lg">Help ons met een Google review!</h2>
-              <p className="text-xs sm:text-sm text-gray-600">Jouw feedback helpt ons om beter te worden</p>
+              <h2 className="font-bold text-gray-900 text-base sm:text-lg">{t('helpWithReview') || 'Help ons met een Google review!'}</h2>
+              <p className="text-xs sm:text-sm text-gray-600">{t('feedbackHelps') || 'Jouw feedback helpt ons om beter te worden'}</p>
             </div>
           </div>
           
           {rating === 0 ? (
             <>
-              <p className="text-xs sm:text-sm text-gray-700 mb-3 sm:mb-4">Hoe waarschijnlijk beveel je ons aan?</p>
+              <p className="text-xs sm:text-sm text-gray-700 mb-3 sm:mb-4">{t('howLikelyRecommend') || 'Hoe waarschijnlijk beveel je ons aan?'}</p>
               <div className="flex justify-between gap-1 sm:gap-2 mb-3 sm:mb-4">
                 {[1, 2, 3, 4, 5].map((star) => (
                   <button
@@ -212,16 +214,16 @@ export default function ThankYouView({ restaurantId, tableId, paymentData: propP
                   ))}
                 </div>
                 <p className="text-sm text-gray-600">
-                  {rating === 5 ? 'Fantastisch! Deel je ervaring op Google' : 
-                   rating === 4 ? 'Fijn om te horen! Laat een review achter' : 
-                   'Bedankt voor je feedback'}
+                  {rating === 5 ? t('fantasticShare') || 'Fantastisch! Deel je ervaring op Google' : 
+                   rating === 4 ? t('niceToHear') || 'Fijn om te horen! Laat een review achter' : 
+                   t('thanksForFeedback') || 'Bedankt voor je feedback'}
                 </p>
               </div>
               
               {rating >= 4 && (
                 <>
                   <textarea
-                    placeholder="Vertel anderen over je ervaring..."
+                    placeholder={t('tellOthersExperience') || 'Vertel anderen over je ervaring...'}
                     className="w-full p-3 sm:p-4 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-gray-400 focus:border-gray-400 transition-colors resize-none text-base text-gray-900 placeholder-gray-400"
                     rows={3}
                     value={review}
@@ -234,7 +236,7 @@ export default function ThankYouView({ restaurantId, tableId, paymentData: propP
                       <path fill="white" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
                       <path fill="white" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
                     </svg>
-                    <span>Plaats review op Google</span>
+                    <span>{t('postReviewGoogle') || 'Plaats review op Google'}</span>
                   </button>
                 </>
               )}
@@ -246,11 +248,11 @@ export default function ThankYouView({ restaurantId, tableId, paymentData: propP
         <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-sm border border-gray-200">
           <div className="flex items-center justify-between mb-3 sm:mb-4">
             <div>
-              <h2 className="font-bold text-gray-900 text-base sm:text-xl mb-0.5 sm:mb-1">Word Splitty member</h2>
-              <p className="text-gray-600 text-xs sm:text-sm">Krijg direct €5 korting!</p>
+              <h2 className="font-bold text-gray-900 text-base sm:text-xl mb-0.5 sm:mb-1">{t('becomeMember') || 'Word Splitty member'}</h2>
+              <p className="text-gray-600 text-xs sm:text-sm">{t('getDiscount') || 'Krijg direct €5 korting!'}</p>
             </div>
             <div className="bg-green-100 text-green-700 rounded-full px-2.5 py-0.5 sm:px-3 sm:py-1">
-              <span className="text-[10px] sm:text-xs font-bold">GRATIS</span>
+              <span className="text-[10px] sm:text-xs font-bold">{t('free') || 'GRATIS'}</span>
             </div>
           </div>
           
@@ -259,28 +261,28 @@ export default function ThankYouView({ restaurantId, tableId, paymentData: propP
               <svg className="w-4 h-4 sm:w-5 sm:h-5 text-green-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
               </svg>
-              <span className="text-gray-700">€5 welkomstkorting direct beschikbaar</span>
+              <span className="text-gray-700">{t('welcomeDiscount') || '€5 welkomstkorting direct beschikbaar'}</span>
             </div>
             <div className="flex items-center gap-2 sm:gap-3 text-xs sm:text-sm">
               <svg className="w-4 h-4 sm:w-5 sm:h-5 text-green-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
               </svg>
-              <span className="text-gray-700">Spaar punten bij elke betaling</span>
+              <span className="text-gray-700">{t('earnPoints') || 'Spaar punten bij elke betaling'}</span>
             </div>
             <div className="flex items-center gap-2 sm:gap-3 text-xs sm:text-sm">
               <svg className="w-4 h-4 sm:w-5 sm:h-5 text-green-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
               </svg>
-              <span className="text-gray-700">Exclusieve deals & vroege toegang</span>
+              <span className="text-gray-700">{t('exclusiveDeals') || 'Exclusieve deals & vroege toegang'}</span>
             </div>
           </div>
           
           <button className="w-full py-3 sm:py-3.5 bg-black text-white rounded-xl font-bold hover:bg-gray-900 transition-all duration-200 text-sm sm:text-base">
-            Claim je €5 korting
+            {t('claimDiscount') || 'Claim je €5 korting'}
           </button>
           
           <p className="text-center text-[10px] sm:text-xs text-gray-500 mt-3 sm:mt-4">
-            Al lid? <button className="underline hover:text-gray-700">Log in</button>
+            {t('alreadyMember') || 'Al lid?'} <button className="underline hover:text-gray-700">{t('login') || 'Log in'}</button>
           </p>
         </div>
 
@@ -292,7 +294,7 @@ export default function ThankYouView({ restaurantId, tableId, paymentData: propP
             window.location.href = '/'
           }}
         >
-          Terug naar rekening
+          {t('backToBill') || 'Terug naar rekening'}
         </button>
       </div>
     </div>

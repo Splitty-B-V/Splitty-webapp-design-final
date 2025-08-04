@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import PayFullConfirmView from './PayFullConfirmView'
 import TipView from './TipView'
 import PaymentMethodView from './PaymentMethodView'
+import { useLanguage } from '@/contexts/LanguageContext'
 
 interface PayFullModalProps {
   isOpen: boolean
@@ -14,6 +15,7 @@ interface PayFullModalProps {
 export default function PayFullModal({ isOpen, onClose, total }: PayFullModalProps) {
   const [currentView, setCurrentView] = useState<'confirm' | 'tip' | 'payment'>('confirm')
   const [tipAmount, setTipAmount] = useState(0)
+  const { t } = useLanguage()
   
   const subtotal = total // Total is already the subtotal, service fee added at payment
 
@@ -50,9 +52,9 @@ export default function PayFullModal({ isOpen, onClose, total }: PayFullModalPro
         <div className="max-w-[500px] mx-auto bg-white rounded-t-[20px] max-h-[95vh] overflow-hidden animate-slide-up flex flex-col"
           style={{ touchAction: 'pan-y', overscrollBehavior: 'contain', scrollBehavior: 'smooth' }}
         >
-        <h2 id="pay-full-title" className="sr-only">Betaal volledig</h2>
+        <h2 id="pay-full-title" className="sr-only">{t('payFull')}</h2>
         <p id="pay-full-description" className="sr-only">
-          Betaal het volledige bedrag van de rekening.
+          {t('payFullDescription') || 'Betaal het volledige bedrag van de rekening.'}
         </p>
         
         {/* Header */}

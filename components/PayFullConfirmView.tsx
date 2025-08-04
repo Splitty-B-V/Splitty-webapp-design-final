@@ -1,5 +1,7 @@
 'use client'
 
+import { useLanguage } from '@/contexts/LanguageContext'
+
 interface PayFullConfirmViewProps {
   subtotal: number
   serviceFee: number
@@ -15,6 +17,7 @@ export default function PayFullConfirmView({
   onBack, 
   onContinue 
 }: PayFullConfirmViewProps) {
+  const { t } = useLanguage()
   return (
     <div className="flex flex-col h-full" style={{ maxHeight: 'calc(85vh - 100px)' }}>
       {/* Header */}
@@ -28,11 +31,11 @@ export default function PayFullConfirmView({
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
             </svg>
           </button>
-          <h2 className="text-lg sm:text-xl font-bold text-black">Betaal volledig</h2>
+          <h2 className="text-lg sm:text-xl font-bold text-black">{t('payFull')}</h2>
           <div className="w-10"></div>
         </div>
         <p className="text-xs sm:text-sm text-gray-600 text-center">
-          Je betaalt het volledige bedrag in één keer
+          {t('payingFullBill')}
         </p>
       </div>
 
@@ -57,15 +60,15 @@ export default function PayFullConfirmView({
               </div>
               <div>
                 <h3 className="font-semibold text-gray-900 text-sm sm:text-base">Splitty Restaurant</h3>
-                <p className="text-xs text-gray-600">Tafel 1</p>
+                <p className="text-xs text-gray-600">{t('table')} 1</p>
               </div>
             </div>
 
             {/* Amount display */}
             <div className="text-center py-2 sm:py-3">
-              <p className="text-xs text-gray-600 mb-0.5 sm:mb-1">Te betalen</p>
+              <p className="text-xs text-gray-600 mb-0.5 sm:mb-1">{t('toPay') || t('totalToPay')}</p>
               <p className="text-2xl sm:text-3xl font-bold text-black">€{total.toFixed(2).replace('.', ',')}</p>
-              <p className="text-xs text-gray-500 mt-0.5">Inclusief BTW</p>
+              <p className="text-xs text-gray-500 mt-0.5">{t('includingBtw')} {t('btw')}</p>
             </div>
           </div>
         </div>
@@ -77,7 +80,7 @@ export default function PayFullConfirmView({
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
             </svg>
             <p className="text-xs sm:text-sm text-gray-700">
-              <span className="font-medium">Snel klaar:</span> Betaal alles in één keer zonder gedoe
+              <span className="font-medium">{t('quickReady') || 'Snel klaar'}:</span> {t('payAllAtOnce') || 'Betaal alles in één keer zonder gedoe'}
             </p>
           </div>
         </div>
@@ -89,7 +92,7 @@ export default function PayFullConfirmView({
           className="w-full py-3 px-4 sm:py-4 sm:px-6 bg-black text-white rounded-2xl font-medium text-sm sm:text-base transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
           onClick={onContinue}
         >
-          Verder naar fooi
+          {t('continueToTip')}
         </button>
       </div>
     </div>

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useLanguage } from '@/contexts/LanguageContext'
 
 interface SplitEquallyViewProps {
   total: number
@@ -10,6 +11,7 @@ interface SplitEquallyViewProps {
 
 export default function SplitEquallyView({ total, onBack, onContinue }: SplitEquallyViewProps) {
   const [numberOfPeople, setNumberOfPeople] = useState(2)
+  const { t } = useLanguage()
   
   const perPersonAmount = total / numberOfPeople
 
@@ -26,18 +28,18 @@ export default function SplitEquallyView({ total, onBack, onContinue }: SplitEqu
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
             </svg>
           </button>
-          <h2 className="text-lg sm:text-xl font-bold text-black">Gelijk verdelen</h2>
+          <h2 className="text-lg sm:text-xl font-bold text-black">{t('splitEqually')}</h2>
           <div className="w-10"></div>
         </div>
         <p className="text-xs sm:text-sm text-gray-600 text-center">
-          Kies het aantal personen om de rekening mee te delen
+          {t('withHowManyPeople')}
         </p>
       </div>
 
       {/* Main content */}
       <div className="flex-1 px-4 py-3 sm:py-6 overflow-y-auto">
         <div className="bg-gray-50 rounded-2xl p-4 sm:p-6">
-          <h3 className="text-center text-xs sm:text-sm font-medium text-gray-600 mb-4 sm:mb-6">Aantal personen</h3>
+          <h3 className="text-center text-xs sm:text-sm font-medium text-gray-600 mb-4 sm:mb-6">{t('people')}</h3>
           
           <div className="flex items-center justify-center gap-4 sm:gap-6 mb-6 sm:mb-8">
             <button 
@@ -68,7 +70,7 @@ export default function SplitEquallyView({ total, onBack, onContinue }: SplitEqu
             {/* Total amount */}
             <div className="bg-white rounded-xl sm:rounded-2xl p-3 sm:p-4">
               <div className="flex items-center justify-between">
-                <span className="text-gray-600 text-xs sm:text-sm">Totaalbedrag</span>
+                <span className="text-gray-600 text-xs sm:text-sm">{t('totalAmount')}</span>
                 <span className="font-semibold text-black text-sm sm:text-base">€{total.toFixed(2).replace('.', ',')}</span>
               </div>
             </div>
@@ -76,7 +78,7 @@ export default function SplitEquallyView({ total, onBack, onContinue }: SplitEqu
             {/* Per person amount */}
             <div className="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-xl sm:rounded-2xl p-4 sm:p-6">
               <p className="text-center text-gray-600 text-xs sm:text-sm mb-1 sm:mb-2">
-                Ieder persoon betaalt
+                {t('perPerson')}
               </p>
               <p className="text-center text-2xl sm:text-3xl font-bold text-green-700">
                 €{perPersonAmount.toFixed(2).replace('.', ',')}
@@ -92,7 +94,7 @@ export default function SplitEquallyView({ total, onBack, onContinue }: SplitEqu
           className="w-full py-3 px-4 sm:py-4 sm:px-6 bg-black text-white rounded-2xl font-medium text-sm sm:text-base transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
           onClick={() => onContinue(numberOfPeople)}
         >
-          Verder naar betalen
+          {t('continueToTip')}
         </button>
       </div>
     </div>

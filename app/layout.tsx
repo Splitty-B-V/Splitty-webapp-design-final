@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { BillProvider } from '@/contexts/BillContext'
+import { LanguageProvider } from '@/contexts/LanguageContext'
 import './globals.css'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -20,9 +21,11 @@ export default function RootLayout({
   return (
     <html lang="nl" className="bg-white">
       <body className={`${inter.className} bg-white`}>
-        <BillProvider>
-          {children}
-        </BillProvider>
+        <LanguageProvider>
+          <BillProvider>
+            {children}
+          </BillProvider>
+        </LanguageProvider>
       </body>
     </html>
   )

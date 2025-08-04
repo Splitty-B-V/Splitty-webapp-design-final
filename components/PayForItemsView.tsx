@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useBill } from '@/contexts/BillContext'
+import { useLanguage } from '@/contexts/LanguageContext'
 
 interface OrderItem {
   name: string
@@ -18,6 +19,7 @@ interface PayForItemsViewProps {
 
 export default function PayForItemsView({ items, onBack, onContinue }: PayForItemsViewProps) {
   const { getRemainingQuantityForItem } = useBill()
+  const { t } = useLanguage()
   const [selectedQuantities, setSelectedQuantities] = useState<Record<string, number>>(
     items.reduce((acc, item) => ({ ...acc, [item.name]: 0 }), {})
   )
@@ -51,11 +53,11 @@ export default function PayForItemsView({ items, onBack, onContinue }: PayForIte
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
             </svg>
           </button>
-          <h2 className="text-lg sm:text-xl font-bold text-black">Selecteer items</h2>
+          <h2 className="text-lg sm:text-xl font-bold text-black">{t('selectItems')}</h2>
           <div className="w-10"></div>
         </div>
         <p className="text-xs sm:text-sm text-gray-600 text-center">
-          Kies de items die je wilt betalen
+          {t('selectItemsToPay')}
         </p>
       </div>
 
@@ -95,7 +97,7 @@ export default function PayForItemsView({ items, onBack, onContinue }: PayForIte
                     <h3 className={`font-semibold text-sm sm:text-base ${isFullyPaid ? 'text-gray-500' : 'text-black'}`}>
                       {item.name}
                       {isFullyPaid && (
-                        <span className="ml-2 text-xs text-gray-500">(Volledig betaald)</span>
+                        <span className="ml-2 text-xs text-gray-500">({t('fullyPaid') || 'Volledig betaald'})</span>
                       )}
                     </h3>
                     <span className={`font-medium text-sm sm:text-base ${isFullyPaid ? 'text-gray-500' : 'text-gray-700'}`}>
@@ -105,8 +107,8 @@ export default function PayForItemsView({ items, onBack, onContinue }: PayForIte
                   <div className="flex items-center justify-between">
                     <p className="text-xs sm:text-sm text-gray-600">
                       {isFullyPaid 
-                        ? `Alle ${item.quantity} betaald` 
-                        : `Nog ${remainingQty - selectedQty} van ${item.quantity} beschikbaar`
+                        ? t('allPaid').replace('{quantity}', item.quantity.toString()) || `Alle ${item.quantity} betaald` 
+                        : t('stillAvailable').replace('{remaining}', (remainingQty - selectedQty).toString()).replace('{total}', item.quantity.toString()) || `Nog ${remainingQty - selectedQty} van ${item.quantity} beschikbaar`
                       }
                     </p>
                     {!isFullyPaid && (
@@ -148,7 +150,7 @@ export default function PayForItemsView({ items, onBack, onContinue }: PayForIte
         {hasSelection ? (
           <div className="space-y-2 sm:space-y-3">
             <div className="flex items-center justify-between px-2">
-              <span className="text-sm sm:text-base text-gray-600">Geselecteerd</span>
+              <span className="text-sm sm:text-base text-gray-600">{t('selected')}</span>
               <span className="text-lg sm:text-xl font-bold text-black">€{totalSelected.toFixed(2).replace('.', ',')}</span>
             </div>
             <button 
@@ -164,7 +166,7 @@ export default function PayForItemsView({ items, onBack, onContinue }: PayForIte
                 onContinue(totalSelected, selectedItems)
               }}
             >
-              Verder naar fooi
+              {t('continueToTip')}
             </button>
           </div>
         ) : (
@@ -172,7 +174,7 @@ export default function PayForItemsView({ items, onBack, onContinue }: PayForIte
             disabled
             className="w-full py-3 px-4 sm:py-4 sm:px-6 bg-gray-100 text-gray-400 rounded-2xl font-medium text-sm sm:text-base cursor-not-allowed"
           >
-            Selecteer minimaal 1 item
+            {t('selectMinimum') || 'Selecteer minimaal 1 item'}
           </button>
         )}
       </div>
