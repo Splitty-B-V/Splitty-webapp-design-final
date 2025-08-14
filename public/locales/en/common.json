@@ -79,6 +79,14 @@
   "processing": "Processing...",
   "error": "Error",
   "paymentFailed": "Payment failed",
+  "paymentCouldNotProcess": "Your payment could not be processed",
+  "possibleCauses": "Possible causes",
+  "insufficientBalance": "Insufficient balance",
+  "paymentLimitReached": "Payment limit reached",
+  "technicalIssue": "Technical issue",
+  "incorrectDetails": "Incorrect details",
+  "needHelp": "Need help? Contact us",
+  "securePayment": "Secure payment with Splitty",
   "tryAgain": "Try again",
   "close": "Close",
   "selectMinimum": "Select at least 1 item",
@@ -138,5 +146,10 @@
   "allPeoplePaid": "All {total} people have paid their share.",
   "paid": "paid",
   "youPayFor": "You pay for {count}",
-  "stillToPay": "Still to pay"
+  "stillToPay": "Still to pay",
+  "loadingBill": "Loading your bill",
+  "pleaseWait": "Please wait a moment",
+  "nothingOrdered": "Nothing ordered yet?",
+  "askWaiter": "Ask the waiter about our specialties!",
+  "refreshPage": "Refresh page"
 }

@@ -16,6 +16,11 @@
   }
 }
 
+html {
+  overscroll-behavior: none;
+  -webkit-overflow-scrolling: touch;
+}
+
 body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
@@ -24,6 +29,9 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
+  overscroll-behavior: none;
+  position: relative;
+  min-height: 100vh;
 }
 
 @layer utilities {

@@ -150,7 +150,14 @@ export default function SplitBillModal({ isOpen, onClose, orderItems }: SplitBil
                       </svg>
                       <div>
                         <p className="text-sm font-medium text-blue-900">
-                          {t('paymentMode')}: <span className="font-bold">{activeSplitMode}</span>
+                          {t('paymentMode')}: <span className="font-bold">{
+                            activeSplitMode === 'Betaal voor je items' ? t('payForItems') :
+                            activeSplitMode === 'Gelijk verdelen' ? t('splitEqually') :
+                            activeSplitMode === 'Aangepast bedrag' ? t('customAmount') :
+                            activeSplitMode?.startsWith('Gelijk verdelen') ? 
+                              `${t('splitEqually')} (${activeSplitMode.match(/\d+/)?.[0]} ${t('people')})` :
+                            activeSplitMode
+                          }</span>
                         </p>
                         <p className="text-xs text-blue-700 mt-1">
                           {t('allPaymentsProcessed')}

@@ -15,6 +15,13 @@ export default function ActionButtons() {
   const subtotal = totalBill
   const total = subtotal // Service fee only shown at payment
   
+  // Debug logging
+  useEffect(() => {
+    console.log('ActionButtons mounted')
+    console.log('Split modal open:', isSplitModalOpen)
+    console.log('Pay full modal open:', isPayFullModalOpen)
+  }, [isSplitModalOpen, isPayFullModalOpen])
+  
   useEffect(() => {
     const handleOpenPayFullModal = () => {
       setIsPayFullModalOpen(true)
@@ -34,7 +41,10 @@ export default function ActionButtons() {
           className={`w-full py-3 px-4 sm:py-4 sm:px-6 bg-black text-white rounded-2xl font-medium transition-all duration-200 shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] ${
             activeSplitMode ? '' : ''
           }`}
-          onClick={() => setIsSplitModalOpen(true)}
+          onClick={() => {
+            console.log('Split button clicked!')
+            setIsSplitModalOpen(true)
+          }}
         >
           <div className="flex items-center justify-center gap-2">
             <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -54,7 +64,10 @@ export default function ActionButtons() {
         {!activeSplitMode && (
           <button 
             className="w-full py-3 px-4 sm:py-4 sm:px-6 bg-white text-black border-2 border-gray-200 rounded-2xl font-medium transition-all duration-200 shadow-sm hover:shadow-md hover:border-gray-300 hover:scale-[1.02] active:scale-[0.98]"
-            onClick={() => setIsPayFullModalOpen(true)}
+            onClick={() => {
+              console.log('Pay full button clicked!')
+              setIsPayFullModalOpen(true)
+            }}
           >
             <div className="flex items-center justify-center gap-2">
               <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">

@@ -25,8 +25,8 @@ export default function BillFullyPaidView() {
   }
   
   return (
-    <div className="min-h-screen bg-gray-100">
-      <div className="min-h-screen max-w-[500px] mx-auto bg-gray-50 shadow-lg">
+    <div className="min-h-screen bg-gray-100" style={{ overscrollBehavior: 'none' }}>
+      <div className="min-h-screen max-w-[500px] mx-auto bg-gray-50 shadow-lg" style={{ overscrollBehavior: 'none' }}>
         <div className="flex items-center justify-center p-3 sm:p-4">
           <div className="w-full max-w-md space-y-4 sm:space-y-6">
         {/* Success message */}

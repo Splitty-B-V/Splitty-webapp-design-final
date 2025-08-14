@@ -1,6 +1,6 @@
 {
   "table": "Tafel",
-  "outstandingAmount": "Nog openstaande bedrag",
+  "outstandingAmount": "Nog openstaand bedrag",
   "order": "Bestelling",
   "perUnit": "per stuk",
   "totalAmount": "Totaalbedrag",
@@ -79,6 +79,14 @@
   "processing": "Verwerken...",
   "error": "Fout",
   "paymentFailed": "Betaling mislukt",
+  "paymentCouldNotProcess": "Je betaling kon niet worden verwerkt",
+  "possibleCauses": "Mogelijke oorzaken",
+  "insufficientBalance": "Onvoldoende saldo",
+  "paymentLimitReached": "Betalingslimiet bereikt",
+  "technicalIssue": "Technische storing",
+  "incorrectDetails": "Onjuiste gegevens",
+  "needHelp": "Hulp nodig? Neem contact op",
+  "securePayment": "Veilig betalen met Splitty",
   "tryAgain": "Probeer opnieuw",
   "close": "Sluiten",
   "selectMinimum": "Selecteer minimaal 1 item",
@@ -138,5 +146,10 @@
   "allPeoplePaid": "Alle {total} personen hebben hun deel betaald.",
   "paid": "betaald",
   "youPayFor": "Jij betaalt voor {count}",
-  "stillToPay": "Nog te betalen"
+  "stillToPay": "Nog te betalen",
+  "loadingBill": "Je rekening wordt geladen",
+  "pleaseWait": "Even geduld alsjeblieft",
+  "nothingOrdered": "Nog niets besteld?",
+  "askWaiter": "Vraag de ober naar onze specialiteiten!",
+  "refreshPage": "Ververs pagina"
 }

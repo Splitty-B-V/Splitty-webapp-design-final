@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect } from 'react'
 import Image from 'next/image'
 import Footer from '@/components/Footer'
 import ActionButtons from '@/components/ActionButtons'
@@ -13,6 +14,13 @@ import LanguageToggle from '@/components/LanguageToggle'
 export default function BillPage() {
   const { orderItems, totalBill, paidAmount, remainingAmount, isFullyPaid, activeSplitMode, resetBill } = useBill()
   const { t } = useLanguage()
+  
+  useEffect(() => {
+    console.log('BillPage mounted and hydrated!')
+    window.addEventListener('click', (e) => {
+      console.log('Window click detected:', e.target)
+    }, { once: true })
+  }, [])
   
   const subtotal = totalBill
   const total = subtotal
@@ -29,8 +37,8 @@ export default function BillPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="flex flex-col min-h-screen max-w-[500px] mx-auto w-full">
+    <div className="min-h-screen bg-gray-50" style={{ overscrollBehavior: 'none' }}>
+      <div className="flex flex-col min-h-screen max-w-[500px] mx-auto w-full" style={{ overscrollBehavior: 'none' }}>
         {/* Restaurant Banner */}
         <section 
           className="relative w-full h-48 bg-cover bg-center"
@@ -39,7 +47,7 @@ export default function BillPage() {
           }}
         >
           {/* Language Toggle */}
-          <div className="absolute top-4 right-4 z-10">
+          <div className="absolute top-4 right-4 z-50">
             <LanguageToggle />
           </div>
           <div 
@@ -79,7 +87,7 @@ export default function BillPage() {
             <div className="flex justify-between items-center mb-4 sm:mb-5">
               <div>
                 <h1 className="text-gray-600 text-xs sm:text-sm font-normal mb-0.5">{t('table')} 1</h1>
-                <p className="text-black text-lg sm:text-xl font-semibold">{t('outstandingAmount')}</p>
+                <p className="text-black text-lg sm:text-xl font-semibold">{t('outstandingAmount') || 'Nog openstaand bedrag'}</p>
               </div>
               <div className="text-right">
                 <p className="text-black text-xl sm:text-2xl font-semibold">€{remainingAmount.toFixed(2).replace('.', ',')}</p>

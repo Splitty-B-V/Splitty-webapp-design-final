@@ -1,7 +1,6 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Inter } from 'next/font/google'
-import { BillProvider } from '@/contexts/BillContext'
-import { LanguageProvider } from '@/contexts/LanguageContext'
+import ClientProviders from '@/components/ClientProviders'
 import './globals.css'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -9,8 +8,14 @@ const inter = Inter({ subsets: ['latin'] })
 export const metadata: Metadata = {
   title: 'Splitty - Deel je rekening',
   description: 'Deel eenvoudig je restaurantrekening met Splitty',
+}
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
   themeColor: '#ffffff',
-  viewport: 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover',
 }
 
 export default function RootLayout({
@@ -21,11 +26,9 @@ export default function RootLayout({
   return (
     <html lang="nl" className="bg-white">
       <body className={`${inter.className} bg-white`}>
-        <LanguageProvider>
-          <BillProvider>
-            {children}
-          </BillProvider>
-        </LanguageProvider>
+        <ClientProviders>
+          {children}
+        </ClientProviders>
       </body>
     </html>
   )

@@ -79,6 +79,14 @@
   "processing": "Verarbeitung...",
   "error": "Fehler",
   "paymentFailed": "Zahlung fehlgeschlagen",
+  "paymentCouldNotProcess": "Ihre Zahlung konnte nicht verarbeitet werden",
+  "possibleCauses": "Mögliche Ursachen",
+  "insufficientBalance": "Unzureichendes Guthaben",
+  "paymentLimitReached": "Zahlungslimit erreicht",
+  "technicalIssue": "Technisches Problem",
+  "incorrectDetails": "Fehlerhafte Angaben",
+  "needHelp": "Brauchen Sie Hilfe? Kontaktieren Sie uns",
+  "securePayment": "Sichere Zahlung mit Splitty",
   "tryAgain": "Erneut versuchen",
   "close": "Schließen",
   "selectMinimum": "Wählen Sie mindestens 1 Artikel aus",
@@ -138,5 +146,10 @@
   "allPeoplePaid": "Alle {total} Personen haben ihren Anteil bezahlt.",
   "paid": "bezahlt",
   "youPayFor": "Sie bezahlen für {count}",
-  "stillToPay": "Noch zu bezahlen"
+  "stillToPay": "Noch zu bezahlen",
+  "loadingBill": "Ihre Rechnung wird geladen",
+  "pleaseWait": "Bitte warten Sie einen Moment",
+  "nothingOrdered": "Noch nichts bestellt?",
+  "askWaiter": "Fragen Sie den Kellner nach unseren Spezialitäten!",
+  "refreshPage": "Seite aktualisieren"
 }
