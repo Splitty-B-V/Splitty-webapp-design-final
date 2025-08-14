@@ -31,36 +31,27 @@ export default function PaymentFailedPage() {
   return (
     <div className="min-h-screen bg-gray-50" style={{ overscrollBehavior: 'none' }}>
       <div className="flex flex-col min-h-screen max-w-[500px] mx-auto w-full" style={{ overscrollBehavior: 'none' }}>
-        {/* Restaurant Banner */}
-        <section 
-          className="relative w-full h-48 bg-cover bg-center"
-          style={{ 
-            backgroundImage: 'url("https://firebasestorage.googleapis.com/v0/b/sunday-dem.appspot.com/o/dbdebaf6-974f-4632-b60d-8edcd8017f04%2Fcover%2Fcover_800x452.jpeg?alt=media&token=e818cc4e-ab9c-41b4-88da-c92879caff1b")' 
-          }}
-        >
-          {/* Language Toggle */}
-          <div className="absolute top-4 right-4 z-50">
-            <LanguageToggle />
-          </div>
-          
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/30"></div>
-          
-          <div 
-            className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 w-28 h-28 rounded-full bg-white bg-center bg-no-repeat bg-contain shadow-lg"
-            style={{ 
-              backgroundImage: 'url(/images/limon.jpeg)',
-              backgroundSize: '80%'
-            }}
-          ></div>
-        </section>
-        
         <main className="w-full flex-grow bg-white">
-          {/* Spacing for logo overlap */}
-          <div className="h-16"></div>
           
           {/* Failed Content - Full page integrated design */}
           <div className="flex-1 bg-white flex flex-col items-center justify-center px-6 sm:px-4 py-6 sm:py-8">
-            <div className="w-full max-w-sm mx-auto">
+            <div className="w-full max-w-sm mx-auto relative">
+              {/* Language Toggle - positioned at top right inside content */}
+              <div className="absolute top-0 right-0 z-50">
+                <LanguageToggle />
+              </div>
+              
+              {/* Limon Logo - centered */}
+              <div className="flex justify-center mb-6 sm:mb-8 pt-12">
+                <div 
+                  className="w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-white bg-center bg-no-repeat bg-contain shadow-lg"
+                  style={{ 
+                    backgroundImage: 'url(/images/limon.jpeg)',
+                    backgroundSize: '80%'
+                  }}
+                ></div>
+              </div>
+              
               {/* Error Icon with animation - Cleaner design */}
               <div className={`flex justify-center mb-6 sm:mb-8 ${animate ? 'animate-scale-in' : ''}`}>
                 <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-red-50 to-red-100 rounded-full flex items-center justify-center shadow-sm">
