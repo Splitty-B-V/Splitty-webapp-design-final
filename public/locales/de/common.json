@@ -151,5 +151,7 @@
   "pleaseWait": "Bitte warten Sie einen Moment",
   "nothingOrdered": "Noch nichts bestellt?",
   "askWaiter": "Fragen Sie den Kellner nach unseren Spezialitäten!",
-  "refreshPage": "Seite aktualisieren"
+  "refreshPage": "Seite aktualisieren",
+  "payYourItems": "Bezahle deine Artikel",
+  "deleteSplit": "Split löschen"
 }

@@ -151,5 +151,7 @@
   "pleaseWait": "Please wait a moment",
   "nothingOrdered": "Nothing ordered yet?",
   "askWaiter": "Ask the waiter about our specialties!",
-  "refreshPage": "Refresh page"
+  "refreshPage": "Refresh page",
+  "payYourItems": "Pay your items",
+  "deleteSplit": "Delete split"
 }
