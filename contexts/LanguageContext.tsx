@@ -5,6 +5,7 @@ import { t as translate } from '@/lib/i18n'
 
 interface LanguageContextType {
   locale: string
+  language: string
   setLocale: (locale: string) => void
   t: (key: string) => string
 }
@@ -32,7 +33,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const t = (key: string) => translate(key, locale)
 
   return (
-    <LanguageContext.Provider value={{ locale, setLocale, t }} key={locale}>
+    <LanguageContext.Provider value={{ locale, language: locale, setLocale, t }} key={locale}>
       {children}
     </LanguageContext.Provider>
   )
