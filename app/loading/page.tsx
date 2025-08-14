@@ -23,11 +23,11 @@ export default function LoadingPage() {
   
   return (
     <div className="h-screen bg-gray-50 overflow-hidden" style={{ overscrollBehavior: 'none' }}>
-      <div className="flex flex-col h-screen max-w-[500px] mx-auto w-full" style={{ overscrollBehavior: 'none' }}>
-        <main className="w-full flex-grow bg-white overflow-auto">
+      <div className="flex flex-col h-screen max-w-[500px] mx-auto w-full overflow-hidden" style={{ overscrollBehavior: 'none' }}>
+        <main className="w-full flex-grow bg-white overflow-hidden">
           
           {/* Loading Content - Full page integrated design */}
-          <div className="min-h-full bg-white flex flex-col items-center justify-center px-6 sm:px-4 py-4 sm:py-6">
+          <div className="flex-1 bg-white flex flex-col items-center justify-center px-6 sm:px-4 py-6 sm:py-8">
             <div className="w-full max-w-sm mx-auto relative">
               {/* Language Toggle - positioned at top right inside content */}
               <div className="absolute top-0 right-0 z-50">
@@ -35,9 +35,9 @@ export default function LoadingPage() {
               </div>
               
               {/* Limon Logo - centered */}
-              <div className="flex justify-center mb-4 sm:mb-6 pt-10">
+              <div className="flex justify-center mb-6 sm:mb-8 pt-12">
                 <div 
-                  className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-white bg-center bg-no-repeat bg-contain shadow-lg"
+                  className="w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-white bg-center bg-no-repeat bg-contain shadow-lg"
                   style={{ 
                     backgroundImage: 'url(/images/limon.jpeg)',
                     backgroundSize: '80%'
@@ -46,7 +46,7 @@ export default function LoadingPage() {
               </div>
               
               {/* Table Number Badge */}
-              <div className="flex justify-center mb-3 sm:mb-4">
+              <div className="flex justify-center mb-6 sm:mb-8">
                 <div className="inline-flex items-center gap-1.5 sm:gap-2 bg-gradient-to-r from-green-50 to-emerald-50 rounded-full px-3 sm:px-4 py-1.5 sm:py-2 border border-green-200">
                   <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-green-500 rounded-full animate-pulse"></div>
                   <span className="text-xs sm:text-sm font-semibold text-gray-800">Limon • {t('table') || 'Tafel'} 1</span>
@@ -54,7 +54,7 @@ export default function LoadingPage() {
               </div>
               
               {/* Splitty Logo */}
-              <div className="flex justify-center mb-4 sm:mb-6">
+              <div className="flex justify-center mb-6 sm:mb-8">
                 <Image 
                   src="/images/logo-trans.png" 
                   alt="Splitty" 
@@ -86,7 +86,7 @@ export default function LoadingPage() {
               </div>
               
               {/* Info Section */}
-              <div className="mt-6 sm:mt-8 space-y-3">
+              <div className="mt-8 sm:mt-12 space-y-3 sm:space-y-4">
                 {/* Call to Action */}
                 <div className="bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl sm:rounded-2xl p-3 sm:p-4">
                   <div className="flex items-center space-x-2.5 sm:space-x-3">
@@ -111,11 +111,11 @@ export default function LoadingPage() {
               </div>
               
               {/* Bottom Branding */}
-              <div className="mt-6 sm:mt-8 text-center">
+              <div className="mt-8 sm:mt-12 text-center">
                 <p className="text-[10px] sm:text-xs text-gray-500">
                   {t('poweredBy') || 'Powered by Splitty'}
                 </p>
-                <p className="text-[10px] sm:text-xs text-gray-400 mt-0.5">
+                <p className="text-[10px] sm:text-xs text-gray-400 mt-0.5 sm:mt-1">
                   {t('payWithSmile')} 😊
                 </p>
               </div>
