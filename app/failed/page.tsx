@@ -59,7 +59,7 @@ export default function PaymentFailedPage() {
           <div className="h-16"></div>
           
           {/* Failed Content - Full page integrated design */}
-          <div className="flex-1 bg-white flex flex-col items-center justify-center px-4 py-6 sm:py-8">
+          <div className="flex-1 bg-white flex flex-col items-center justify-center px-6 sm:px-4 py-6 sm:py-8">
             <div className="w-full max-w-sm mx-auto">
               {/* Error Icon with animation - Cleaner design */}
               <div className={`flex justify-center mb-6 sm:mb-8 ${animate ? 'animate-scale-in' : ''}`}>
