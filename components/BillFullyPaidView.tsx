@@ -13,10 +13,27 @@ export default function BillFullyPaidView() {
   const [showConfetti, setShowConfetti] = useState(true)
   
   useEffect(() => {
+    // Auto-redirect to thank you page after a brief moment
+    const redirectTimer = setTimeout(() => {
+      // Pass payment data to thank you page
+      const params = new URLSearchParams({
+        amount: totalBill.toFixed(2),
+        serviceFee: '0.70',
+        tip: '0',
+        total: totalBill.toFixed(2),
+        splitMode: 'Volledig betaald'
+      })
+      router.push(`/thank-you?${params.toString()}`)
+    }, 2000) // Show this view for 2 seconds then redirect
+    
     // Hide confetti after 3 seconds
-    const timer = setTimeout(() => setShowConfetti(false), 3000)
-    return () => clearTimeout(timer)
-  }, [])
+    const confettiTimer = setTimeout(() => setShowConfetti(false), 3000)
+    
+    return () => {
+      clearTimeout(redirectTimer)
+      clearTimeout(confettiTimer)
+    }
+  }, [router, totalBill])
   
   const handleReset = () => {
     resetBill()

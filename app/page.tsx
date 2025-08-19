@@ -15,14 +15,23 @@ export default function BillPage() {
   const { orderItems, totalBill, paidAmount, remainingAmount, isFullyPaid, activeSplitMode, resetBill } = useBill()
   const { t } = useLanguage()
   const [isLoading, setIsLoading] = useState(true)
+  const [isCheckingPayment, setIsCheckingPayment] = useState(true)
   
   useEffect(() => {
-    // Simulate loading time (you can replace this with actual data fetching)
-    const timer = setTimeout(() => {
+    // Check payment status first
+    const checkTimer = setTimeout(() => {
+      setIsCheckingPayment(false)
+    }, 300) // Quick check for payment status
+    
+    // Then handle normal loading
+    const loadTimer = setTimeout(() => {
       setIsLoading(false)
     }, 1500) // Show loading screen for 1.5 seconds
     
-    return () => clearTimeout(timer)
+    return () => {
+      clearTimeout(checkTimer)
+      clearTimeout(loadTimer)
+    }
   }, [])
   
   const subtotal = totalBill
@@ -34,8 +43,8 @@ export default function BillPage() {
   
   const paidPercentage = Math.round((paidAmount / total) * 100)
   
-  // Show loading screen
-  if (isLoading) {
+  // Show loading screen during initial load or payment check
+  if (isLoading || (isCheckingPayment && isFullyPaid)) {
     return (
       <>
         <style jsx>{`
