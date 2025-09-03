@@ -15,21 +15,14 @@ export default function BillPage() {
   const { orderItems, totalBill, paidAmount, remainingAmount, isFullyPaid, activeSplitMode, resetBill } = useBill()
   const { t } = useLanguage()
   const [isLoading, setIsLoading] = useState(true)
-  const [isCheckingPayment, setIsCheckingPayment] = useState(true)
   
   useEffect(() => {
-    // Check payment status first
-    const checkTimer = setTimeout(() => {
-      setIsCheckingPayment(false)
-    }, 300) // Quick check for payment status
-    
-    // Then handle normal loading
+    // Handle loading
     const loadTimer = setTimeout(() => {
       setIsLoading(false)
     }, 1500) // Show loading screen for 1.5 seconds
     
     return () => {
-      clearTimeout(checkTimer)
       clearTimeout(loadTimer)
     }
   }, [])
@@ -43,8 +36,8 @@ export default function BillPage() {
   
   const paidPercentage = Math.round((paidAmount / total) * 100)
   
-  // Show loading screen during initial load or payment check
-  if (isLoading || (isCheckingPayment && isFullyPaid)) {
+  // Show loading screen only during initial load
+  if (isLoading) {
     return (
       <>
         <style jsx>{`
@@ -287,7 +280,7 @@ export default function BillPage() {
         {/* Fixed bottom action buttons */}
         <div className="fixed bottom-0 left-0 right-0 z-50">
           <div className="max-w-[500px] mx-auto bg-white border-t border-gray-100 shadow-[0_-4px_12px_rgba(0,0,0,0.04)]">
-            <div className="p-3 sm:p-4">
+            <div className="p-3 sm:p-4 pb-12 sm:pb-16">
               <ActionButtons />
             </div>
           </div>

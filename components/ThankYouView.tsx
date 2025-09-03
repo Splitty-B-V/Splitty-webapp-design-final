@@ -244,47 +244,6 @@ export default function ThankYouView({ restaurantId, tableId, paymentData: propP
           )}
         </div>
 
-        {/* Create account section */}
-        <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-sm border border-gray-200">
-          <div className="flex items-center justify-between mb-3 sm:mb-4">
-            <div>
-              <h2 className="font-bold text-gray-900 text-base sm:text-xl mb-0.5 sm:mb-1">{t('becomeMember') || 'Word Splitty member'}</h2>
-              <p className="text-gray-600 text-xs sm:text-sm">{t('getDiscount') || 'Krijg direct €5 korting!'}</p>
-            </div>
-            <div className="bg-green-100 text-green-700 rounded-full px-2.5 py-0.5 sm:px-3 sm:py-1">
-              <span className="text-[10px] sm:text-xs font-bold">{t('free') || 'GRATIS'}</span>
-            </div>
-          </div>
-          
-          <div className="space-y-2 sm:space-y-3 mb-4 sm:mb-6">
-            <div className="flex items-center gap-2 sm:gap-3 text-xs sm:text-sm">
-              <svg className="w-4 h-4 sm:w-5 sm:h-5 text-green-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-              </svg>
-              <span className="text-gray-700">{t('welcomeDiscount') || '€5 welkomstkorting direct beschikbaar'}</span>
-            </div>
-            <div className="flex items-center gap-2 sm:gap-3 text-xs sm:text-sm">
-              <svg className="w-4 h-4 sm:w-5 sm:h-5 text-green-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-              </svg>
-              <span className="text-gray-700">{t('earnPoints') || 'Spaar punten bij elke betaling'}</span>
-            </div>
-            <div className="flex items-center gap-2 sm:gap-3 text-xs sm:text-sm">
-              <svg className="w-4 h-4 sm:w-5 sm:h-5 text-green-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-              </svg>
-              <span className="text-gray-700">{t('exclusiveDeals') || 'Exclusieve deals & vroege toegang'}</span>
-            </div>
-          </div>
-          
-          <button className="w-full py-3 sm:py-3.5 bg-black text-white rounded-xl font-bold hover:bg-gray-900 transition-all duration-200 text-sm sm:text-base">
-            {t('claimDiscount') || 'Claim je €5 korting'}
-          </button>
-          
-          <p className="text-center text-[10px] sm:text-xs text-gray-500 mt-3 sm:mt-4">
-            {t('alreadyMember') || 'Al lid?'} <button className="underline hover:text-gray-700">{t('login') || 'Log in'}</button>
-          </p>
-        </div>
 
         {/* Back button */}
         <button 
