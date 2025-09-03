@@ -40,15 +40,11 @@ const BillContext = createContext<BillContextType | undefined>(undefined)
 
 // Initial order items
 const initialOrderItems: OrderItem[] = [
-  { name: 'Soup', quantity: 3, unitPrice: 4.50, totalPrice: 13.50 },
-  { name: '5 Spice Lamb Salad', quantity: 2, unitPrice: 9.95, totalPrice: 19.90 },
-  { name: 'Chorizo Sandwich', quantity: 3, unitPrice: 7.50, totalPrice: 22.50 },
-  { name: 'Cod & Chips', quantity: 4, unitPrice: 10.95, totalPrice: 43.80 },
-  { name: 'Amaretto Cheese Cake', quantity: 5, unitPrice: 5.50, totalPrice: 27.50 },
-  { name: 'Crispy Calamari', quantity: 2, unitPrice: 8.95, totalPrice: 17.90 },
-  { name: 'Tiramisu', quantity: 3, unitPrice: 6.50, totalPrice: 19.50 },
-  { name: 'Heineken Beer', quantity: 4, unitPrice: 3.50, totalPrice: 14.00 },
-  { name: 'House Wine Red', quantity: 2, unitPrice: 5.50, totalPrice: 11.00 },
+  { name: 'Soup', quantity: 2, unitPrice: 4.50, totalPrice: 9.00 },
+  { name: 'Chorizo Sandwich', quantity: 2, unitPrice: 7.50, totalPrice: 15.00 },
+  { name: 'Crispy Calamari', quantity: 1, unitPrice: 8.95, totalPrice: 8.95 },
+  { name: 'Tiramisu', quantity: 1, unitPrice: 6.50, totalPrice: 6.50 },
+  { name: 'Heineken Beer', quantity: 2, unitPrice: 3.50, totalPrice: 7.00 },
 ]
 
 export function BillProvider({ children }: { children: React.ReactNode }) {
