@@ -1,9 +1,17 @@
-# Button Position Change for POV Video Shoot
+# POV Video Shoot UI Changes
 
 ## Date: 2025-09-03
 
 ### Purpose
-Temporarily lifted the action buttons higher to avoid camera rig blocking them during POV video shoot with Sony camera.
+Temporarily modified UI elements to avoid camera rig blocking them during POV video shoot with Sony camera.
+
+## Quick Commands
+
+### Apply POV Shoot Changes:
+Run these commands to quickly apply all POV shoot changes (after reverting to normal first).
+
+### Revert to Normal:
+Run these commands to quickly revert all changes back to normal after the shoot.
 
 ### Changes Made
 
