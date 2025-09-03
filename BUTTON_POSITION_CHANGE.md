@@ -19,22 +19,22 @@ Temporarily lifted the action buttons higher to avoid camera rig blocking them d
 
 #### Modified Code (Current):
 ```jsx
-<div className="p-3 sm:p-4 pb-12 sm:pb-16">
+<div className="p-3 sm:p-4 pb-16 sm:pb-20">
   <ActionButtons />
 </div>
 ```
 
 ### What Changed
 Added extra bottom padding to the action buttons container:
-- `pb-12` - adds 48px (3rem) bottom padding on mobile
-- `sm:pb-16` - adds 64px (4rem) bottom padding on larger screens
+- `pb-16` - adds 64px (4rem) bottom padding on mobile
+- `sm:pb-20` - adds 80px (5rem) bottom padding on larger screens
 
 ### How to Revert
-After the video shoot is complete, remove the extra bottom padding classes `pb-12 sm:pb-16` from line 283 in `/app/page.tsx`.
+After the video shoot is complete, remove the extra bottom padding classes `pb-16 sm:pb-20` from line 283 in `/app/page.tsx`.
 
 Simply change:
 ```jsx
-<div className="p-3 sm:p-4 pb-12 sm:pb-16">
+<div className="p-3 sm:p-4 pb-16 sm:pb-20">
 ```
 
 Back to:

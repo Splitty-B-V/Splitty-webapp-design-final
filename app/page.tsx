@@ -280,7 +280,7 @@ export default function BillPage() {
         {/* Fixed bottom action buttons */}
         <div className="fixed bottom-0 left-0 right-0 z-50">
           <div className="max-w-[500px] mx-auto bg-white border-t border-gray-100 shadow-[0_-4px_12px_rgba(0,0,0,0.04)]">
-            <div className="p-3 sm:p-4 pb-12 sm:pb-16">
+            <div className="p-3 sm:p-4 pb-16 sm:pb-20">
               <ActionButtons />
             </div>
           </div>
